@@ -1,0 +1,1488 @@
+{
+  "Sheet1": {
+    "headers": [
+      "Source structure",
+      "Data type",
+      "Description",
+      "Target structure",
+      "Data Type",
+      "Occurrence",
+      "Mandatory",
+      "Transformation"
+    ],
+    "mappings": [
+      {
+        "Source structure": "/Combined",
+        "Target structure": "ARBCIG_QUOTE",
+        "Data Type": "Root Node"
+      },
+      {
+        "Source structure": "X",
+        "Data type": "string",
+        "Description": "NO_PRICE_FROM_PO",
+        "Target structure": "ARBCIG_QUOTE/NO_PRICE_FROM_PO",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "mapped to 'X'"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Extrinsic[@name = 'SourcingEventId']",
+        "Data type": "string",
+        "Description": "ARIBA_EVENTID",
+        "Target structure": "ARBCIG_QUOTE/ARIBA_EVENTID",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "mapped to $header/Extrinsic[@name = 'SourcingEventId']"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/ARIBA_QUOTEEXTRA",
+        "Occurrence": "1..1",
+        "Mandatory": "M"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteRequestReference/@requestID, '0000000000')",
+        "Data type": "string",
+        "Description": "RFQID",
+        "Target structure": "ARBCIG_QUOTE/ARIBA_QUOTEEXTRA/RFQID",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteRequestReference/@requestID) > 0 then map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteRequestReference/@requestID, '0000000000')"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteRequestReference/@requestDate",
+        "Data type": "string",
+        "Description": "RFQDATE",
+        "Target structure": "ARBCIG_QUOTE/ARIBA_QUOTEEXTRA/RFQDATE",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "call-template 'ERPDateTime' to get value by passing parameter Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteRequestReference/@requestDate"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR",
+        "Data Type": "sub-node",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact[@role = 'supplierCorporate'], proceed"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact[@role = 'supplierCorporate']/@addressID",
+        "Data type": "string",
+        "Description": "ADDR_NO",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/ADDR_NO",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact[@role = 'supplierCorporate']/@addressID"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Name",
+        "Data type": "string",
+        "Description": "NAME",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/NAME",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Name"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/City",
+        "Data type": "string",
+        "Description": "CITY",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/CITY",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/City"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/PostalCode",
+        "Data type": "string",
+        "Description": "POSTL_COD1",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/POSTL_COD1",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/PostalCode"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/Street",
+        "Data type": "string",
+        "Description": "STREET",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/STREET",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/Street"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/Country/@isoCountryCode",
+        "Data type": "string",
+        "Description": "COUNTRY",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/COUNTRY",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/Country/@isoCountryCode"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/State",
+        "Data type": "string",
+        "Description": "REGION",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/REGION",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/State"
+      },
+      {
+        "Source structure": "Concatenate using concat(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/CountryCode/@isoCountryCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/AreaOrCityCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/Number)",
+        "Data type": "string",
+        "Description": "TEL1_NUMBR",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/TEL1_NUMBR",
+        "Data Type": "char30",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Concatenate using concat(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/CountryCode/@isoCountryCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/AreaOrCityCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/Number)"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/Extension",
+        "Data type": "string",
+        "Description": "TEL1_EXT",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/TEL1_EXT",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Phone/TelephoneNumber/Extension"
+      },
+      {
+        "Source structure": "concat(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/CountryCode/@isoCountryCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/AreaOrCityCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/Number)",
+        "Data type": "string",
+        "Description": "FAX_NUMBER",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/FAX_NUMBER",
+        "Data Type": "char30",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Concatenate using concat(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/CountryCode/@isoCountryCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/AreaOrCityCode, Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/Number)"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/Extension",
+        "Data type": "string",
+        "Description": "FAX_EXTENS",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/FAX_EXTENS",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Fax/TelephoneNumber/Extension"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Email/@name",
+        "Data type": "string",
+        "Description": "E_MAIL",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/E_MAIL",
+        "Data Type": "char241",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Email/@name"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/Country/@isoCountryCode",
+        "Data type": "string",
+        "Description": "COUNTRYISO",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/COUNTRYISO",
+        "Data Type": "char2",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/PostalAddress/Country/@isoCountryCode"
+      },
+      {
+        "Source structure": "(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Name/@xml:lang),1,2)",
+        "Data type": "string",
+        "Description": "LANGU_ISO",
+        "Target structure": "ARBCIG_QUOTE/POADDRVENDOR/LANGU_ISO",
+        "Data Type": "char2",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact/Name/@xml:lang),1,2)"
+      },
+      {
+        "Source structure": "Map PO header"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POHEADER",
+        "Data Type": "Sub-node",
+        "Occurrence": "1..1",
+        "Mandatory": "M"
+      },
+      {
+        "Source structure": "Call-template \"ReadQuote\" to get doc_type from Cross reference file",
+        "Data type": "string",
+        "Description": "DOC_TYPE",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/DOC_TYPE",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"($compcode = 0 and $vendor > 0 and $doctype = 0)\", call-template \"ReadQuote\" to get docu_type from Cross reference file"
+      },
+      {
+        "Source structure": "Call-template \"ReadQuote\" to get vendor from Cross reference file",
+        "Data type": "string",
+        "Description": "VENDOR",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/VENDOR",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Call-template \"ReadQuote\" to get one time vendor from Cross reference file"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/LegalEntity/IdReference[@domain = 'CompanyCode']/@identifier",
+        "Data type": "string",
+        "Description": "COMP_CODE",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/COMP_CODE",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/LegalEntity/IdReference[@domain = 'CompanyCode']/@identifier"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/FollowUpDocument/@category",
+        "Data type": "string",
+        "Description": "DOC_TYPE",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/DOC_TYPE",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/FollowUpDocument/@category"
+      },
+      {
+        "Source structure": "Payload/cXML/Header/From/Credential[@domain = 'PrivateID']/Identity OR Payload/cXML/Header/From/Credential[@domain = 'VendorID']/Identity",
+        "Data type": "string",
+        "Description": "VENDOR",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/VENDOR",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Payload/cXML/Header/From/Credential[@domain = 'PrivateID']/Identity if exists else Map  map to Payload/cXML/Header/From/Credential[@domain = 'VendorID']/Identity"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact[@role = 'buyer']/Name",
+        "Data type": "string",
+        "Description": "CREATED_BY",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/CREATED_BY",
+        "Data Type": "char12",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact[@role = 'buyer'] then map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Contact[@role = 'buyer']/Name"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@xml:lang),1,2)",
+        "Data type": "string",
+        "Description": "LANGU_ISO",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/LANGU_ISO",
+        "Data Type": "char2",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "select=\"substring(upper-case(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@xml:lang),1,2)"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/PaymentTerms/@paymentTermCode",
+        "Data type": "string",
+        "Description": "PMNTTRMS",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/PMNTTRMS",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if (Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/PaymentTerms/@paymentTermCode) > 0, then map to it"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference[@domain = 'PurchasingOrganization']/@identifier",
+        "Data type": "string",
+        "Description": "PURCH_ORG",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/PURCH_ORG",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference[@domain = 'PurchasingOrganization']/@identifier"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference[@domain = 'PurchasingGroup']/@identifier",
+        "Data type": "string",
+        "Description": "PUR_GROUP",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/PUR_GROUP",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference[@domain = 'PurchasingGroup']/@identifier) > 0 then map to it"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@currency",
+        "Data type": "string",
+        "Description": "CURRENCY_ISO",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/CURRENCY_ISO",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@currency"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteDate in ERP format",
+        "Data type": "string",
+        "Description": "DOC_DATE",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/DOC_DATE",
+        "Data Type": "date",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to substring(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteDate, 1,10)"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Extrinsic[@name = 'Terms']/Extrinsic[@name = 'ValidityEndDate']) or substring(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteDate, 1,10)",
+        "Data type": "string",
+        "Description": "VPER_START",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/VPER_START",
+        "Data Type": "date",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Extrinsic[@name = 'Terms']/Extrinsic[@name = 'ValidityStartDate']) > 0 then call-template \"ERPDateTime\" to get $v_date and map to substring($v_date, 1,10) otherwise, call call-template \"ERPDateTime\" for Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteDate and get $date then map to substring($v_date, 1,10)"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Extrinsic[@name = 'Terms']/Extrinsic[@name = 'ValidityEndDate']) or 9999-12-31",
+        "Data type": "string",
+        "Description": "VPER_END",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/VPER_END",
+        "Data Type": "date",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/Extrinsic[@name = 'Terms']/Extrinsic[@name = 'ValidityEndDate']) > 0 then call-template \"ERPDateTime\" to get $v_date and map to substring($v_date, 1,10) otherwise, map to 9999-12-31"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteID,string-length($header/@quoteID)-9,10",
+        "Data type": "string",
+        "Description": "QUOTATION",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/QUOTATION",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to substring(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteID,string-length($header/@quoteID)-9,10)"
+      },
+      {
+        "Source structure": "substring($v_date, 1, 10)",
+        "Data type": "string",
+        "Description": "QUOT_DATE",
+        "Target structure": "ARBCIG_QUOTE/POHEADER/QUOT_DATE",
+        "Data Type": "date",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "call-template \"ERPDateTIME by passing @quoteDate to get $v_date and map to it using substring($v_date, 1, 10)"
+      },
+      {
+        "Source structure": "PO Item"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POITEM",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "for each Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn, process only if Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/@parentLinenumber exists"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POITEM/item",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/@lineNumber",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PO_ITEM",
+        "Data Type": "NUMC(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/@lineNumber"
+      },
+      {
+        "Source structure": "ItemDetail/Description",
+        "Target structure": "ARBCIG_QUOTE/POITEM//item/SHORT_TEXT",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to substring(ItemDetail/Description,1,40)"
+      },
+      {
+        "Source structure": "ItemID/BuyerPartID",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/MATERIAL",
+        "Data Type": "char18",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ItemID/BuyerPartID not blank and if it is lessthan 19 char length then map to it"
+      },
+      {
+        "Source structure": "ItemID/BuyerPartID",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/MATERIAL_LNG",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ItemID/BuyerPartID"
+      },
+      {
+        "Source structure": "check the column 'H' for mapping",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PLANT",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "<xsl:variable name=\"doctype\"\r\n        select=\"string-length(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/FollowUpDocument/@category)\"/>\r\n    <xsl:variable name=\"compcode\"\r\n        select=\"string-length(Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/QuoteHeaderInfo/LegalEntity/IdReference[@domain = 'CompanyCode']/@identifier)\"/>\r\n    <xsl:variable name=\"vendor\"\r\n        select=\"string-length(Combined/Payload/cXML/Header/From/Credential[@domain = 'PrivateID']/Identity)\"/>\r\n\r\nif $compcode & $vendor & $doctype are blank then call-template \"ReadQuote\" to get plant cross-reference value \r\notherwise check length of ShipTo/Address/@addressID > 0 then map to it."
+      },
+      {
+        "Source structure": "ItemDetail/Classification[@domain = 'MaterialGroup']/@code",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/MATL_GROUP",
+        "Data Type": "char9",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "ItemDetail/Classification[@domain = 'MaterialGroup']/@code"
+      },
+      {
+        "Source structure": "ItemID/SupplierPartID",
+        "Data type": "string",
+        "Description": "VEND_MAT",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/VEND_MAT",
+        "Data Type": "char35",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ItemID/SupplierPartID"
+      },
+      {
+        "Source structure": "@quantity",
+        "Data type": "string",
+        "Description": "QUANTITY",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/QUANTITY",
+        "Data Type": "decimal",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @quantity"
+      },
+      {
+        "Source structure": "ItemDetail/UnitOfMeasure",
+        "Data type": "string",
+        "Description": "PO_UNIT_ISO",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PO_UNIT_ISO",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ItemDetail/UnitOfMeasure"
+      },
+      {
+        "Source structure": "ItemDetail/Extrinsic/Extrinsic[@name = 'PriceUnit']",
+        "Data type": "string",
+        "Description": "PRICE_UNIT",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PRICE_UNIT",
+        "Data Type": "dec(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ItemDetail/Extrinsic/Extrinsic[@name = 'PriceUnit'] > 0 then map to it"
+      },
+      {
+        "Source structure": "9 or 0",
+        "Data type": "string",
+        "Description": "ITEM_CAT",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/ITEM_CAT",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if @itemClassification = 'service' then map to 9 elseif @itemClassification = 'material' then map to 0"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "ACCTASSCAT",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/ACCTASSCAT",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ((ItemID/BuyerPartID = '') and (not(ReferenceDocumentInfo/DocumentInfo/@documentType = 'requisition')) and (string-length(@parentLineNumber) = 0)) then call-template \"ReadQuote\" to get the value"
+      },
+      {
+        "Source structure": "TermsOfDelivery/TransportTerms/@value",
+        "Data type": "string",
+        "Description": "INCOTERMS1",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/INCOTERMS1",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if TermsOfDelivery/TransportTerms/@value > 0 then map to it"
+      },
+      {
+        "Source structure": "TermsOfDelivery/TransportTerms",
+        "Data type": "string",
+        "Description": "INCOTERMS2",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/INCOTERMS2",
+        "Data Type": "char28",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if TermsOfDelivery/TransportTerms > 0 then map to it"
+      },
+      {
+        "Source structure": "(ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/@documentID, '0000000000')",
+        "Data type": "string",
+        "Description": "PREQ_NO",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PREQ_NO",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition'] and string-length(ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/@documentID) > 0 then map to value-of select=\"format-number(ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/@documentID, '0000000000')"
+      },
+      {
+        "Source structure": "ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/../@lineNumber",
+        "Data type": "string",
+        "Description": "PREQ_ITEM",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PREQ_ITEM",
+        "Data Type": "NUMC(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/../@lineNumber"
+      },
+      {
+        "Source structure": "select=\"format-number(ReferenceDocumentInfo/DocumentInfo[@documentType = 'quoteRequest']/@documentID, '0000000000')",
+        "Data type": "string",
+        "Description": "RFQ_NO",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/RFQ_NO",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ReferenceDocumentInfo/DocumentInfo[@documentType = 'quoteRequest'] and string-length(ReferenceDocumentInfo/DocumentInfo[@documentType = 'quoteRequest']/@documentID) > 0 then map to value-of select=\"format-number(ReferenceDocumentInfo/DocumentInfo[@documentType = 'quoteRequest']/@documentID, '0000000000')"
+      },
+      {
+        "Source structure": "ReferenceDocumentInfo/DocumentInfo[@documentType = 'quoteRequest']/../@lineNumber",
+        "Data type": "string",
+        "Description": "RFQ_ITEM",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/RFQ_ITEM",
+        "Data Type": "NUMC(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ReferenceDocumentInfo/DocumentInfo[@documentType = 'quoteRequest']/../@lineNumber"
+      },
+      {
+        "Source structure": "lineNumber",
+        "Data type": "string",
+        "Description": "PCKG_NO",
+        "Target structure": "ARBCIG_QUOTE/POITEM/item/PCKG_NO",
+        "Data Type": "numc(10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if @itemClassification = 'service' then map to @lineNumber"
+      },
+      {
+        "Source structure": "POACCOUNT"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "for each Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn\r\nand process only if ((ItemID/BuyerPartID = '') and (not(ReferenceDocumentInfo/DocumentInfo/@documentType = 'requisition')) and (string-length(@parentLineNumber) = 0))"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item",
+        "Data Type": "sub-node",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O"
+      },
+      {
+        "Source structure": "@lineNumber",
+        "Data type": "string",
+        "Description": "PO_ITEM",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/PO_ITEM",
+        "Data Type": "numc(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @lineNumber"
+      },
+      {
+        "Source structure": "01'",
+        "Data type": "string",
+        "Description": "SERIAL_NO",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/SERIAL_NO",
+        "Data Type": "numc(2)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to constant '01'"
+      },
+      {
+        "Source structure": "map to @quantity",
+        "Data type": "string",
+        "Description": "QUANTITY",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/QUANTITY",
+        "Data Type": "dec 13.3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @quantity"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "COSTCENTER",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/COSTCENTER",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "get the account assignment category maintained in PD into variable $AccAssCat by calling template\"ReadQuote\" and then fill various fields based on  it.\r\nIf $AccAssCat = 'K', call template \"ReadQuote\" to get cost center value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "GL_ACCOUNT",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/GL_ACCOUNT",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'K', call template \"ReadQuote\" to get GL_ACCOUNT value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "ASSET_NO",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/ASSET_NO",
+        "Data Type": "char12",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'A', call template \"ReadQuote\" to get ASSET_NO value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "SUB_NUMBER",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/SUB_NUMBER",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'A', call template \"ReadQuote\" to get SUB_NUMBER value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "ORDERID",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/ORDERID",
+        "Data Type": "char12",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'F', call template \"ReadQuote\" to get ORDER_ID value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "GL_ACCOUNT",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/GL_ACCOUNT",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'F', call template \"ReadQuote\" to get GL_ACCOUNT value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "WBS_ELEMENT",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/WBS_ELEMENT",
+        "Data Type": "char24",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'P', call template \"ReadQuote\" to get WBS_ELEMENT value"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "GL_ACCOUNT",
+        "Target structure": "ARBCIG_QUOTE/POACCOUNT/item/GL_ACCOUNT",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "If $AccAssCat = 'P', call template \"ReadQuote\" to get GL_ACCOUNT value"
+      },
+      {
+        "Source structure": "POCOND"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POCOND",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "for each Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn\r\nand process only if((not(exists(@parentLineNumber))) or ((exists(@parentLineNumber)) and @itemType = 'item')) and if (ItemDetail/UnitPrice/Money) not blank"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POCOND/item",
+        "Data Type": "sub-node",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O"
+      },
+      {
+        "Source structure": "map to @lineNumber",
+        "Data type": "string",
+        "Description": "ITM_NUMBER",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/ITM_NUMBER",
+        "Data Type": "numc(6)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @lineNumber"
+      },
+      {
+        "Source structure": "1",
+        "Data type": "string",
+        "Description": "CONDITION_NO",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/CONDITION_NO",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to constant '1'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "COND_TYPE",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/COND_TYPE",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if (not(exists(@parentLineNumber))) or if ((exists(@parentLineNumber)) and @itemType = 'item') then call-template \"ReadQuote\" to get value from cross reference"
+      },
+      {
+        "Source structure": "ItemDetail/UnitPrice/Money",
+        "Data type": "string",
+        "Description": "COND_VALUE",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/COND_VALUE",
+        "Data Type": "dec(28.9)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ItemDetail/UnitPrice/Money"
+      },
+      {
+        "Source structure": "I'",
+        "Data type": "string",
+        "Description": "CHANGE_ID",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/CHANGE_ID",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to constant 'I'"
+      },
+      {
+        "Source structure": "ItemDetail/UnitPrice/Money/@currency",
+        "Data type": "string",
+        "Description": "CURRENCY",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/CURRENCY",
+        "Data Type": "char5",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ItemDetail/UnitPrice/Money/@currency"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POCOND/item",
+        "Data Type": "sub-node",
+        "Transformation": "if test=\"(not(exists(@parentLineNumber))) and process for each ItemDetail/UnitPrice/Modifications/Modification"
+      },
+      {
+        "Source structure": "value-of select=\"../../../../@lineNumber",
+        "Data type": "string",
+        "Description": "ITM_NUMBER",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/ITM_NUMBER",
+        "Data Type": "numc(6)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to value-of select=\"../../../../@lineNumber"
+      },
+      {
+        "Source structure": "value-of select=\"position() + 1\"",
+        "Data type": "string",
+        "Description": "CONDITION_NO",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/CONDITION_NO",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to value-of select=\"position() + 1\""
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "COND_TYPE",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/COND_TYPE",
+        "Data Type": "char4",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"exists(AdditionalDeduction/DeductionPercent[@percent]), then call-template \"ReadQuote\" to get value from PD(Cross reference)\r\nwhen test=\"exists(AdditionalDeduction/DeductionAmount/Money) then call-template \"ReadQuote\" to get value from PD(Cross reference)\r\nwhen test=\"exists(AdditionalCost/Percentage[@percent]) then call-template \"ReadQuote\" to get value from PD(Cross reference)\r\n when test=\"exists(AdditionalCost/Money) then call-template \"ReadQuote\" to get value from PD(Cross reference)"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "COND_VALUE",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/COND_VALUE",
+        "Data Type": "dec(28.9)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"exists(AdditionalDeduction/DeductionPercent[@percent])\" then map to AdditionalDeduction/DeductionPercent/@percent\r\nwhen test=\"exists(AdditionalDeduction/DeductionAmount/Money)\" then map to \"AdditionalDeduction/DeductionAmount/Money\"\r\nwhen test=\"exists(AdditionalCost/Percentage[@percent]) then map to \"AdditionalCost/Percentage/@percent\"\r\n when test=\"exists(AdditionalCost/Money) then map to \"AdditionalCost/Money\""
+      },
+      {
+        "Source structure": "map to 'I'",
+        "Data type": "string",
+        "Description": "CHANGE_ID",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/CHANGE_ID",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to constant 'I'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "CURRENCY",
+        "Target structure": "ARBCIG_QUOTE/POCOND/item/CURRENCY",
+        "Data Type": "char5",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"exists(AdditionalDeduction/DeductionAmount/Money)\" then map to \"AdditionalDeduction/DeductionAmount/Money/@currency\"\r\nwhen test=\"exists(AdditionalCost/Money)\" then map to \"AdditionalCost/Money/@currency\""
+      },
+      {
+        "Source structure": "POLIMITS"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POLIMITS",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ((exists(Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/ItemDetail/ExpectedLimit/Money)) or (exists(Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/ItemDetail/OverallLimit/Money)))\" then go ahead to process"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POLIMITS/item",
+        "Data Type": "Sub-node",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process for each Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn and if test=\"((not(exists(@parentLineNumber)) and (@itemClassification = 'service')))\""
+      },
+      {
+        "Source structure": "map to @lineNumber",
+        "Data type": "string",
+        "Description": "PCKG_NO",
+        "Target structure": "ARBCIG_QUOTE/POLIMITS/item/PCKG_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if @itemClassification = 'service' then map to @lineNumber"
+      },
+      {
+        "Source structure": "ItemDetail/OverallLimit/Money",
+        "Data type": "string",
+        "Description": "LIMIT",
+        "Target structure": "ARBCIG_QUOTE/POLIMITS/item/LIMIT",
+        "Data Type": "dec(23.4)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if not(ItemDetail/OverallLimit/Money = '' then map to it otherwise inform blank"
+      },
+      {
+        "Source structure": "X",
+        "Data type": "string",
+        "Description": "NO_LIMIT",
+        "Target structure": "ARBCIG_QUOTE/POLIMITS/item/NO_LIMIT",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"(not(exists(ItemDetail/OverallLimit)))\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "EXP_VALUE",
+        "Target structure": "ARBCIG_QUOTE/POLIMITS/item/EXP_VALUE",
+        "Data Type": "dec(23.4)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"not(ItemDetail/ExpectedLimit/Money = '  ')\" then map to it other wise map to blank"
+      },
+      {
+        "Source structure": "POSCHEDULE"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "process for each Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE/item",
+        "Data Type": "sub-node",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process if test=\"(not(exists(@parentLineNumber)))\""
+      },
+      {
+        "Source structure": "fmap to @lineNumber",
+        "Data type": "string",
+        "Description": "PO_ITEM",
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE/item/PO_ITEM",
+        "Data Type": "numc(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @lineNumber"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "DELIVERY_DATE",
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE/item/DELIVERY_DATE",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "call-template \"ERPDateTime\" to get date into $v_date and map in the format, value-of select=\"translate(substring($v_date, 1, 10), '-', ''\""
+      },
+      {
+        "Source structure": "map to @quantity",
+        "Data type": "string",
+        "Description": "QUANTITY",
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE/item/QUANTITY",
+        "Data Type": "dec(13,3)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @quantity"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "PREQ_NO",
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE/item/PREQ_NO",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition'] and string-length(ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/@documentID) > 0 then map to value-of select=\"format-number(ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/@documentID, '0000000000')\""
+      },
+      {
+        "Source structure": "ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/../@lineNumber",
+        "Data type": "string",
+        "Description": "PREQ_ITEM",
+        "Target structure": "ARBCIG_QUOTE/POSCHEDULE/item/PREQ_ITEM",
+        "Data Type": "numc(5)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ReferenceDocumentInfo/DocumentInfo[@documentType = 'requisition']/../@lineNumber"
+      },
+      {
+        "Source structure": "POTEXTHEADER"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "POTEXTHEADER",
+        "Target structure": "ARBCIG_QUOTE/POTEXTHEADER",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "variable name=\"header\"\r\n        select=\"Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader\"\r\n\r\nif test=\"exists($header/Comments)\" call-template \"ExtractComments\" by passing $header/Comments to get text\r\nor if test=\"string-length($header/@quoteID) > 10 then call-template \"ExtractComments\" by passing $header/Comments to get text"
+      },
+      {
+        "Target structure": "item/TEXT_ID",
+        "Mandatory": "O",
+        "Transformation": "Constant \"QMID\""
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/@quoteID",
+        "Target structure": "item/TEXT_LINE",
+        "Mandatory": "O"
+      },
+      {
+        "Source structure": "POTEXTITEM"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "POTEXTITEM",
+        "Target structure": "ARBCIG_QUOTE/POTEXTITEM",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "variable name= \"item\" select=\"Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn\"\r\n\r\nfor each $item, if test=\"exists(Comments)\" then call-template \"ExtractComments\" to get text value"
+      },
+      {
+        "Source structure": "POSERVICES"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSERVICES",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "variable name= \"item\" select=\"Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn\"\r\nfor each $item process \r\ndecalre variable name=\"Counter\" and set value of \"12340\""
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item",
+        "Data Type": "sub-node",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "when test=\"((not(exists(@parentLineNumber)) and @itemClassification = 'service') or @itemType = 'composite')\""
+      },
+      {
+        "Source structure": "map to @lineNumber",
+        "Data type": "string",
+        "Description": "LINE_NO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/LINE_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @lineNumber"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "EXT_LINE",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/EXT_LINE",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(not(exists(@parentLineNumber)) and (@itemType = 'composite'))\" then map to '0' otherwise map to @LineNumber of Requisition"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "OUTL_NO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/OUTL_NO",
+        "Data Type": "char8",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(not(exists(@parentLineNumber)) and (@itemType = 'composite'))\" then map to substring(ItemDetail/Description, 1, 8)\r\nother wise map to substring(ItemDetail/Description/ShortName, 1, 8)"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "OUTL_IND",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/OUTL_IND",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if @itemType = 'composite' then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "SUBPCKG_NO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/SUBPCKG_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if @itemType = 'composite' then map to @lineNumber + 1"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "SHORT_TEXT",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/SHORT_TEXT",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to substring(ItemDetail/Description[not(exists(ShortName))],1,40)"
+      },
+      {
+        "Source structure": "<---- for itemClassification = service and if this is a child service item --->"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process only when test=\"(exists(@parentLineNumber) and @itemType = 'item')\""
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "PCKG_NO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/PCKG_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to value-of select=\"@parentLineNumber + 1\""
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "LINE_NO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/LINE_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to value-of select=\"$Counter + position()\""
+      },
+      {
+        "Source structure": "map to @lineNumber",
+        "Data type": "string",
+        "Description": "EXT_LINE",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/EXT_LINE",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @linenumber"
+      },
+      {
+        "Source structure": "ItemID/BuyerPartID",
+        "Data type": "string",
+        "Description": "SERVICE",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/SERVICE",
+        "Data Type": "char18",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if ItemID/BuyerPartID is not blank then map to ItemID/BuyerPartID"
+      },
+      {
+        "Source structure": "map to @quantity",
+        "Data type": "string",
+        "Description": "QUANTITY",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/QUANTITY",
+        "Data Type": "dec(13,3)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to @quantity"
+      },
+      {
+        "Source structure": "ItemDetail/UnitOfMeasure",
+        "Data type": "string",
+        "Description": "UOM_ISO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/UOM_ISO",
+        "Data Type": "char3",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to ItemDetail/UnitOfMeasure"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "GR_PRICE",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/GR_PRICE",
+        "Data Type": "dec(23,4)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"string-length(ItemDetail/UnitPrice/Money) > 0\" then map in the format of \"(format-number(ItemDetail/UnitPrice/Money, '0.00'))\""
+      },
+      {
+        "Source structure": "ItemDetail/Description",
+        "Data type": "string",
+        "Description": "SHORT_TEXT",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/SHORT_TEXT",
+        "Data Type": "char40",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to substring(ItemDetail/Description,1,40)"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "OPEN_QTY",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/OPEN_QTY",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"@serviceLineType = 'openquantity'\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "INFORM",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/INFORM",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"@serviceLineType = 'information'\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "BLANKET",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/BLANKET",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"@serviceLineType = 'blanket'\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "EVENTUAL",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/EVENTUAL",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"@serviceLineType = 'contingency'\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "MATL_GROUP",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/MATL_GROUP",
+        "Data Type": "char9",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if test=\"ItemDetail/Classification[@domain = 'MaterialGroup']\" then map to ItemDetail/Classification[@domain = 'MaterialGroup']/@code"
+      },
+      {
+        "Source structure": "<--- for Mapping alternative--->",
+        "Transformation": "process only if test=\"exists(Alternative)\""
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "BASIC_LINE",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/BASIC_LINE",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"Alternative/@alternativeType = 'basicLine'\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "ALTERNAT",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/ALTERNAT",
+        "Data Type": "char1",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"Alternative/@alternativeType = 'alternativeLine'\" then map to 'X'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "BASLINE_NO",
+        "Target structure": "ARBCIG_QUOTE/POSERVICES/item/BASLINE_NO",
+        "Data Type": "numc(10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "process for each Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn and if test @lineNumber = Alternative/@basicLineNumber then  map to $Counter + position()"
+      },
+      {
+        "Source structure": "POSRVACCESSVALUES"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "variable name= \"item\" select=\"Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn\"\r\nfor each $item process \r\ndecalre variable name=\"Counter\" and set value of \"12340\""
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process only when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\""
+      },
+      {
+        "Source structure": "map to @lineNumber",
+        "Data type": "string",
+        "Description": "PCKG_NO",
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item/PCKG_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\"  OR\r\ntest=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and ((exists(ItemDetail/ExpectedLimit/Money)) or (exists(ItemDetail/OverallLimit/Money)))), then map to @lineNumber\r\nwhen test=\"(((exists(@parentLineNumber)) and @itemType = 'item') and (not(@serviceLineType = 'Information')))\" then map to @parentLineNumber + 1"
+      },
+      {
+        "Data type": "string",
+        "Description": "LINE_NO",
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item/LINE_NO",
+        "Data Type": "numc(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\" then map to '0'\r\nwhen test=\"(((exists(@parentLineNumber)) and @itemType = 'item') and (not(@serviceLineType = 'Information')))\"> then map to value-of select=\"$Counter + position()\"\r\n\r\ntest=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and ((exists(ItemDetail/ExpectedLimit/Money)) or (exists(ItemDetail/OverallLimit/Money)))), then map to '0'"
+      },
+      {
+        "Source structure": "00'",
+        "Data type": "string",
+        "Description": "SERNO_LINE",
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item/SERNO_LINE",
+        "Data Type": "numc(2)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\" then map to '00'\r\nwhen test=\"(((exists(@parentLineNumber)) and @itemType = 'item') and (not(@serviceLineType = 'Information')))\" then map to '01'\r\ntest=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and ((exists(ItemDetail/ExpectedLimit/Money)) or (exists(ItemDetail/OverallLimit/Money)))) then map to '01'"
+      },
+      {
+        "Source structure": "00'",
+        "Data type": "string",
+        "Description": "SERIAL_NO",
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item/SERIAL_NO",
+        "Data Type": "numc(2)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\" then map to '00'\r\nwhen test=\"(((exists(@parentLineNumber)) and @itemType = 'item') and (not(@serviceLineType = 'Information')))\" then map to '01'\r\n\r\ntest=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and ((exists(ItemDetail/ExpectedLimit/Money)) or (exists(ItemDetail/OverallLimit/Money)))) then map to '01'"
+      },
+      {
+        "Source structure": "map to @quantity",
+        "Data type": "string",
+        "Description": "QUANTITY",
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item/QUANTITY",
+        "Data Type": "dec(13,3)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\" OR\r\nwhen test=\"(((exists(@parentLineNumber)) and @itemType = 'item') and (not(@serviceLineType = 'Information')))\" then map to @quantity\r\n\r\nwhen test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and ((exists(ItemDetail/ExpectedLimit/Money)) or (exists(ItemDetail/OverallLimit/Money)))) then map to '1'"
+      },
+      {
+        "Source structure": "follow the logic in column 'H'",
+        "Data type": "string",
+        "Description": "NET_VALUE",
+        "Target structure": "ARBCIG_QUOTE/POSRVACCESSVALUES/item/NET_VALUE",
+        "Data Type": "dec(11,2)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "when test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and (not(exists(ItemDetail/ExpectedLimit/Money) or exists(ItemDetail/OverallLimit/Money))))\" OR\r\nwhen test=\"(((exists(@parentLineNumber)) and @itemType = 'item') and (not(@serviceLineType = 'Information')))\" and if test=\"string-length(ItemDetail/UnitPrice/Money) > 0\" then map to it\r\n\r\nwhen test=\"(((not(exists(@parentLineNumber))) and (@itemClassification = 'service')) and ((exists(ItemDetail/ExpectedLimit/Money)) or (exists(ItemDetail/OverallLimit/Money)))) and if test=\"string-length(ItemDetail/ExpectedLimit/Money) > 0 then map to it"
+      },
+      {
+        "Source structure": "ATTACHMENT"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT",
+        "Occurrence": "0..1",
+        "Mandatory": "O"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT/item",
+        "Data Type": "sub-node",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process for each AttachmentList/Attachment"
+      },
+      {
+        "Source structure": "map to /Combined/AttachmentList/Attachment/AttachmentName",
+        "Data type": "string",
+        "Description": "FILE_NAME",
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT/item/FILE_NAME",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to /Combined/AttachmentList/Attachment/AttachmentName"
+      },
+      {
+        "Source structure": "if /Combined/AttachmentList/Attachment/LineNumber > 0 then map to it",
+        "Data type": "string",
+        "Description": "LINE_NUMBER",
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT/item/LINE_NUMBER",
+        "Data Type": "char10",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "if /Combined/AttachmentList/Attachment/LineNumber > 0 then map to it"
+      },
+      {
+        "Source structure": "map to /Combined/AttachmentList/Attachment/AttachmentID",
+        "Data type": "string",
+        "Description": "CONTENT_ID",
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT/item/CONTENT_ID",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to /Combined/AttachmentList/Attachment/AttachmentID"
+      },
+      {
+        "Source structure": "map to /Combined/AttachmentList/Attachment/AttachmentType",
+        "Data type": "string",
+        "Description": "CONTENT_TYPE",
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT/item/CONTENT_TYPE",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to /Combined/AttachmentList/Attachment/AttachmentType"
+      },
+      {
+        "Source structure": "map to /Combined/AttachmentList/Attachment/AttachmentContent",
+        "Data type": "string",
+        "Description": "CONTENT",
+        "Target structure": "ARBCIG_QUOTE/ATTACHMENT/item/CONTENT",
+        "Data Type": "string",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "map to /Combined/AttachmentList/Attachment/AttachmentContent"
+      },
+      {
+        "Source structure": "POPARTNER"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/SupplierProductionFacilityRelations/ProductionFacilityAssociation",
+        "Target structure": "ARBCIG_QUOTE/POPARTNER",
+        "Occurrence": "0..1",
+        "Mandatory": "O"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POPARTNER/item",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process Partner profile"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/ProductionFacilityRole/IdReference/@identifier",
+        "Target structure": "ARBCIG_QUOTE/POPARTNER/item/PARTNERDESC",
+        "Data Type": "Char(2)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/ProductionFacilityRole/IdReference/@identifier"
+      },
+      {
+        "Source structure": "Default 'EN'",
+        "Target structure": "ARBCIG_QUOTE/POPARTNER/item/LANGU",
+        "Data Type": "Char(1)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Default value"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/IdReference/@identifier",
+        "Target structure": "ARBCIG_QUOTE/POPARTNER/item/BUSPARTNO",
+        "Data Type": "Char(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Map to Combined/Payload/cXML/Message/QuoteMessage/QuoteMessageHeader/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/IdReference/@identifier"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POPARTNER/item/DELETE_IND",
+        "Data Type": "Char(1)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Don't map"
+      },
+      {
+        "Source structure": "POITEMPARTNER"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/SupplierProductionFacilityRelations/ProductionFacilityAssociation",
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER",
+        "Occurrence": "0..1",
+        "Mandatory": "O"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER/item",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "O",
+        "Transformation": "process Partner profile"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/@lineNumber",
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER/item/PO_ITEM",
+        "Data Type": "NUMC(5)",
+        "Occurrence": "0..1",
+        "Transformation": "Map to Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/@lineNumber"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/ProductionFacilityRole/IdReference/@identifier",
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER/item/PARTNERDESC",
+        "Data Type": "Char(2)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Map to Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/ItemDetail/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/ProductionFacilityRole/IdReference/@identifier"
+      },
+      {
+        "Source structure": "Default 'EN'",
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER/item/LANGU",
+        "Data Type": "Char(1)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Default value"
+      },
+      {
+        "Source structure": "Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/IdReference/@identifier",
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER/item/BUSPARTNO",
+        "Data Type": "Char(10)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Map to Combined/Payload/cXML/Message/QuoteMessage/QuoteItemIn/ItemDetail/SupplierProductionFacilityRelations/ProductionFacilityAssociation/ProductionFacility/IdReference/@identifier"
+      },
+      {
+        "Target structure": "ARBCIG_QUOTE/POITEMPARTNER/item/DELETE_IND",
+        "Data Type": "Char(1)",
+        "Occurrence": "0..1",
+        "Mandatory": "O",
+        "Transformation": "Don't map"
+      }
+    ],
+    "total": 172
+  },
+  "Sheet2": {
+    "headers": [],
+    "mappings": [],
+    "total": 0
+  }
+}

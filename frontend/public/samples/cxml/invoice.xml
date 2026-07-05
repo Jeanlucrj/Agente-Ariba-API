@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.052/cXML.dtd">
+<cXML payloadID="2024011614000001@supplier.ariba.com"
+      timestamp="2024-01-16T14:00:00-03:00"
+      xml:lang="pt-BR"
+      version="1.2.052">
+  <Header>
+    <From>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+      </Credential>
+    </From>
+    <To>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN01234567890</Identity>
+      </Credential>
+    </To>
+    <Sender>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+        <SharedSecret>secret456</SharedSecret>
+      </Credential>
+      <UserAgent>SAP Business Network Supplier Portal</UserAgent>
+    </Sender>
+  </Header>
+  <Request deploymentMode="production">
+    <InvoiceDetailRequest>
+      <InvoiceDetailRequestHeader invoiceID="NF-2024-001"
+                                  invoiceDate="2024-01-16T14:00:00-03:00"
+                                  purpose="standard"
+                                  operation="new">
+        <InvoicePartner>
+          <Contact role="remitTo">
+            <Name xml:lang="pt-BR">Fornecedor Tecnologia Ltda</Name>
+            <PostalAddress>
+              <Street>Rua Tecnológica, 200</Street>
+              <City>Campinas</City>
+              <State>SP</State>
+              <PostalCode>13010-000</PostalCode>
+              <Country isoCountryCode="BR">Brasil</Country>
+            </PostalAddress>
+            <IdReference identifier="12.345.678/0001-99" domain="CNPJ"/>
+          </Contact>
+        </InvoicePartner>
+        <InvoicePartner>
+          <Contact role="billTo">
+            <Name xml:lang="pt-BR">Empresa Compradora Ltda</Name>
+            <PostalAddress>
+              <Street>Rua da Consolação, 500</Street>
+              <City>São Paulo</City>
+              <State>SP</State>
+              <PostalCode>01302-000</PostalCode>
+              <Country isoCountryCode="BR">Brasil</Country>
+            </PostalAddress>
+            <IdReference identifier="98.765.432/0001-00" domain="CNPJ"/>
+          </Contact>
+        </InvoicePartner>
+        <PaymentTerm payInNumberOfDays="30"/>
+        <Extrinsic name="NumeroNFe">35240112345678000199550010000001001234567890</Extrinsic>
+        <Extrinsic name="ChaveNFe">35240112345678000199550010000001001234567890</Extrinsic>
+        <Extrinsic name="SerieNFe">001</Extrinsic>
+        <Extrinsic name="NaturezaOperacao">Venda de Mercadoria</Extrinsic>
+      </InvoiceDetailRequestHeader>
+
+      <InvoiceDetailOrder>
+        <InvoiceDetailOrderInfo>
+          <OrderReference orderID="PO-2024-001">
+            <DocumentReference payloadID="2024011510300001@buyer.ariba.com"/>
+          </OrderReference>
+        </InvoiceDetailOrderInfo>
+
+        <InvoiceDetailItem invoiceLineNumber="1" quantity="10">
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <UnitPrice>
+            <Money currency="BRL">500.00</Money>
+          </UnitPrice>
+          <InvoiceDetailItemReference lineNumber="1">
+            <ItemID>
+              <SupplierPartID>PROD-001-A</SupplierPartID>
+            </ItemID>
+            <Description xml:lang="pt-BR">Notebook Dell Inspiron 15 - Core i5 - 8GB RAM</Description>
+          </InvoiceDetailItemReference>
+          <SubtotalAmount>
+            <Money currency="BRL">5000.00</Money>
+          </SubtotalAmount>
+          <Tax>
+            <Money currency="BRL">450.00</Money>
+            <Description xml:lang="pt-BR">ICMS 9%</Description>
+            <TaxDetail purpose="tax" category="ICMS" percentageRate="9">
+              <TaxableAmount><Money currency="BRL">5000.00</Money></TaxableAmount>
+              <TaxAmount><Money currency="BRL">450.00</Money></TaxAmount>
+              <TaxLocation xml:lang="pt-BR">SP</TaxLocation>
+            </TaxDetail>
+          </Tax>
+          <GrossAmount>
+            <Money currency="BRL">5450.00</Money>
+          </GrossAmount>
+          <NetAmount>
+            <Money currency="BRL">5000.00</Money>
+          </NetAmount>
+        </InvoiceDetailItem>
+
+        <InvoiceDetailItem invoiceLineNumber="2" quantity="5">
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <UnitPrice>
+            <Money currency="BRL">2000.00</Money>
+          </UnitPrice>
+          <InvoiceDetailItemReference lineNumber="2">
+            <ItemID>
+              <SupplierPartID>PROD-002-B</SupplierPartID>
+            </ItemID>
+            <Description xml:lang="pt-BR">Monitor LG 27" Full HD IPS</Description>
+          </InvoiceDetailItemReference>
+          <SubtotalAmount>
+            <Money currency="BRL">10000.00</Money>
+          </SubtotalAmount>
+          <Tax>
+            <Money currency="BRL">900.00</Money>
+            <Description xml:lang="pt-BR">ICMS 9%</Description>
+            <TaxDetail purpose="tax" category="ICMS" percentageRate="9">
+              <TaxableAmount><Money currency="BRL">10000.00</Money></TaxableAmount>
+              <TaxAmount><Money currency="BRL">900.00</Money></TaxAmount>
+              <TaxLocation xml:lang="pt-BR">SP</TaxLocation>
+            </TaxDetail>
+          </Tax>
+          <GrossAmount>
+            <Money currency="BRL">10900.00</Money>
+          </GrossAmount>
+          <NetAmount>
+            <Money currency="BRL">10000.00</Money>
+          </NetAmount>
+        </InvoiceDetailItem>
+      </InvoiceDetailOrder>
+
+      <InvoiceDetailSummary>
+        <SubtotalAmount>
+          <Money currency="BRL">15000.00</Money>
+        </SubtotalAmount>
+        <Tax>
+          <Money currency="BRL">1350.00</Money>
+          <Description xml:lang="pt-BR">Total de Impostos</Description>
+        </Tax>
+        <GrossAmount>
+          <Money currency="BRL">16350.00</Money>
+        </GrossAmount>
+        <NetAmount>
+          <Money currency="BRL">15000.00</Money>
+        </NetAmount>
+        <DueAmount>
+          <Money currency="BRL">16350.00</Money>
+        </DueAmount>
+      </InvoiceDetailSummary>
+    </InvoiceDetailRequest>
+  </Request>
+</cXML>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.052/cXML.dtd">
+<cXML payloadID="2024012009000001@supplier.ariba.com"
+      timestamp="2024-01-20T09:00:00-03:00"
+      xml:lang="pt-BR"
+      version="1.2.052">
+  <Header>
+    <From>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+      </Credential>
+    </From>
+    <To>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN01234567890</Identity>
+      </Credential>
+    </To>
+    <Sender>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+        <SharedSecret>secret456</SharedSecret>
+      </Credential>
+      <UserAgent>SAP Business Network Supplier Portal</UserAgent>
+    </Sender>
+  </Header>
+  <Request deploymentMode="production">
+    <ShipNoticeRequest>
+      <ShipNoticeHeader shipmentID="SHIP-2024-001"
+                        shipmentDate="2024-01-20T09:00:00-03:00"
+                        deliveryDate="2024-01-25T12:00:00-03:00"
+                        noticeDate="2024-01-20T09:00:00-03:00">
+        <ShipControl>
+          <CarrierIdentifier domain="SCAC">FEDX</CarrierIdentifier>
+          <CarrierIdentifier domain="name">FedEx</CarrierIdentifier>
+          <ShipmentIdentifier>1Z999AA10123456784</ShipmentIdentifier>
+        </ShipControl>
+        <ShipFrom>
+          <Address addressID="CD-CAMPINAS-001">
+            <Name xml:lang="pt-BR">Centro de Distribuição Fornecedor - Campinas</Name>
+            <PostalAddress>
+              <Street>Rodovia Anhanguera, Km 108</Street>
+              <City>Campinas</City>
+              <State>SP</State>
+              <PostalCode>13100-000</PostalCode>
+              <Country isoCountryCode="BR">Brasil</Country>
+            </PostalAddress>
+          </Address>
+        </ShipFrom>
+        <ShipTo>
+          <Address addressID="DEPOSITO-SP-001">
+            <Name xml:lang="pt-BR">Armazém Central São Paulo</Name>
+            <PostalAddress>
+              <Street>Av. Paulista, 1000</Street>
+              <City>São Paulo</City>
+              <State>SP</State>
+              <PostalCode>01310-100</PostalCode>
+              <Country isoCountryCode="BR">Brasil</Country>
+            </PostalAddress>
+          </Address>
+        </ShipTo>
+        <Packaging>
+          <PackagingCode>BOX</PackagingCode>
+          <Dimension type="weight" quantity="45" unit="KGM"/>
+          <Dimension type="volume" quantity="0.5" unit="M3"/>
+        </Packaging>
+        <Extrinsic name="NumeroDanfe">35240109876543000123550010000005001000000501</Extrinsic>
+      </ShipNoticeHeader>
+
+      <ShipNoticePortion>
+        <OrderReference orderID="PO-2024-001">
+          <DocumentReference payloadID="2024011510300001@buyer.ariba.com"/>
+        </OrderReference>
+
+        <ShipNoticeItem quantity="10" lineNumber="1">
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <ItemID>
+            <SupplierPartID>PROD-001-A</SupplierPartID>
+            <BuyerPartID>MAT-0001</BuyerPartID>
+          </ItemID>
+          <Extrinsic name="LoteControle">LOTE-2024-001</Extrinsic>
+          <Extrinsic name="DataValidade">2026-01-20</Extrinsic>
+        </ShipNoticeItem>
+
+        <ShipNoticeItem quantity="5" lineNumber="2">
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <ItemID>
+            <SupplierPartID>PROD-002-B</SupplierPartID>
+            <BuyerPartID>MAT-0002</BuyerPartID>
+          </ItemID>
+        </ShipNoticeItem>
+      </ShipNoticePortion>
+    </ShipNoticeRequest>
+  </Request>
+</cXML>

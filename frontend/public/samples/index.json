@@ -1,0 +1,103 @@
+{
+  "samples": [
+    {
+      "id": "po-ariba",
+      "label": "OrderRequest (cXML) — Pedido de Compra",
+      "type": "cxml",
+      "docType": "OrderRequest",
+      "slot": "ariba",
+      "path": "/samples/cxml/order-request.xml",
+      "description": "Pedido de Compra enviado pelo Comprador via Ariba Network com Extrinsics (CostCenter, Tipo de Contratação)"
+    },
+    {
+      "id": "po-sap",
+      "label": "ORDERS05 (IDoc) — Pedido de Compra SAP",
+      "type": "idoc",
+      "docType": "ORDERS05",
+      "slot": "sap",
+      "path": "/samples/idoc/orders05-po.xml",
+      "description": "IDoc ORDERS05 gerado pelo CIG após transformação do OrderRequest Ariba para SAP MM"
+    },
+    {
+      "id": "invoice-ariba",
+      "label": "InvoiceDetailRequest (cXML) — Nota Fiscal",
+      "type": "cxml",
+      "docType": "InvoiceDetailRequest",
+      "slot": "ariba",
+      "path": "/samples/cxml/invoice.xml",
+      "description": "Nota Fiscal eletrônica enviada pelo Fornecedor com impostos brasileiros (ICMS, NF-e)"
+    },
+    {
+      "id": "invoice-sap",
+      "label": "INVOIC02 (IDoc) — Entrada de Fatura SAP",
+      "type": "idoc",
+      "docType": "INVOIC02",
+      "slot": "sap",
+      "path": "/samples/idoc/invoic02-nf.xml",
+      "description": "IDoc INVOIC02 gerado pelo CIG para entrada de fatura no SAP MIRO"
+    },
+    {
+      "id": "ship-notice",
+      "label": "ShipNoticeRequest (cXML) — Aviso de Envio",
+      "type": "cxml",
+      "docType": "ShipNoticeRequest",
+      "slot": "ariba",
+      "path": "/samples/cxml/ship-notice.xml",
+      "description": "ASN (Advanced Shipping Notice) enviado pelo Fornecedor com rastreamento e dados de entrega"
+    },
+    {
+      "id": "quote-message",
+      "label": "QuoteMessage (cXML) — Resposta de Cotação",
+      "type": "cxml",
+      "docType": "QuoteMessage",
+      "slot": "ariba",
+      "path": "/samples/cxml/quote-message.xml",
+      "description": "Resposta do Fornecedor a uma RFQ no Ariba Sourcing com preços e prazos"
+    },
+    {
+      "id": "confirmation",
+      "label": "ConfirmationRequest (cXML) — Confirmação de PO",
+      "type": "cxml",
+      "docType": "ConfirmationRequest",
+      "slot": "ariba",
+      "path": "/samples/cxml/order-confirmation.xml",
+      "description": "Confirmação de aceitação do Pedido de Compra pelo Fornecedor via Ariba Network"
+    }
+  ],
+  "mappings": [
+    {
+      "id": "quote-request-sap",
+      "label": "cXML Mappings — QuoteRequest → SAP",
+      "direction": "SAP → cXML (Outbound)",
+      "docType": "QuoteRequest",
+      "path": "/samples/mappings/QuoteRequest-SAP.json",
+      "totalMappings": 206,
+      "description": "Mapeamento oficial CIG: campos SAP → campos cXML QuoteRequest (RFQ enviado ao fornecedor)"
+    },
+    {
+      "id": "quote-message-order-in",
+      "label": "cXML Mappings — QuoteMessageOrder_In → SAP",
+      "direction": "cXML → SAP (Inbound)",
+      "docType": "QuoteMessage",
+      "path": "/samples/mappings/QuoteMessageOrder_In-SAP.json",
+      "totalMappings": 172,
+      "description": "Mapeamento oficial CIG: campos cXML QuoteMessage (resposta fornecedor) → estrutura ARBCIG_QUOTE SAP"
+    }
+  ],
+  "pairs": [
+    {
+      "id": "po-flow",
+      "label": "Fluxo PO: Ariba OrderRequest → SAP ORDERS05",
+      "description": "Par completo para análise CIG de Pedido de Compra",
+      "ariba": "po-ariba",
+      "sap": "po-sap"
+    },
+    {
+      "id": "invoice-flow",
+      "label": "Fluxo NF: Ariba InvoiceDetailRequest → SAP INVOIC02",
+      "description": "Par completo para análise CIG de Nota Fiscal",
+      "ariba": "invoice-ariba",
+      "sap": "invoice-sap"
+    }
+  ]
+}

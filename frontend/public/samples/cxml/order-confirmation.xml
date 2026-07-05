@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.052/cXML.dtd">
+<cXML payloadID="2024011611000001@supplier.ariba.com"
+      timestamp="2024-01-16T11:00:00-03:00"
+      xml:lang="pt-BR"
+      version="1.2.052">
+  <Header>
+    <From>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+      </Credential>
+    </From>
+    <To>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN01234567890</Identity>
+      </Credential>
+    </To>
+    <Sender>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+        <SharedSecret>secret456</SharedSecret>
+      </Credential>
+      <UserAgent>SAP Business Network Supplier Portal</UserAgent>
+    </Sender>
+  </Header>
+  <Request deploymentMode="production">
+    <ConfirmationRequest>
+      <ConfirmationHeader type="accept"
+                          confirmID="CONF-2024-001"
+                          confirmDate="2024-01-16T11:00:00-03:00"
+                          invoiceID="NF-2024-001">
+        <Contact role="supplierContact">
+          <Name xml:lang="pt-BR">Carlos Pereira</Name>
+          <Email name="email">carlos.pereira@fornecedor.com.br</Email>
+          <Phone name="work">
+            <TelephoneNumber>
+              <CountryCode isoCountryCode="BR">55</CountryCode>
+              <AreaOrCityCode>19</AreaOrCityCode>
+              <Number>99876-5432</Number>
+            </TelephoneNumber>
+          </Phone>
+        </Contact>
+        <Extrinsic name="ConfirmationType">Total</Extrinsic>
+        <Extrinsic name="EstimatedDeliveryDate">2024-01-25</Extrinsic>
+      </ConfirmationHeader>
+
+      <ConfirmationItem quantity="10" lineNumber="1">
+        <UnitOfMeasure>EA</UnitOfMeasure>
+        <ConfirmationStatus type="accept" quantity="10">
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <DeliveryDate>
+            <DeliverByDate>2024-01-25T12:00:00-03:00</DeliverByDate>
+          </DeliveryDate>
+          <UnitPrice>
+            <Money currency="BRL">500.00</Money>
+          </UnitPrice>
+        </ConfirmationStatus>
+        <ItemID>
+          <SupplierPartID>PROD-001-A</SupplierPartID>
+          <BuyerPartID>MAT-0001</BuyerPartID>
+        </ItemID>
+      </ConfirmationItem>
+
+      <ConfirmationItem quantity="5" lineNumber="2">
+        <UnitOfMeasure>EA</UnitOfMeasure>
+        <ConfirmationStatus type="accept" quantity="5">
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <DeliveryDate>
+            <DeliverByDate>2024-01-25T12:00:00-03:00</DeliverByDate>
+          </DeliveryDate>
+          <UnitPrice>
+            <Money currency="BRL">2000.00</Money>
+          </UnitPrice>
+        </ConfirmationStatus>
+        <ItemID>
+          <SupplierPartID>PROD-002-B</SupplierPartID>
+          <BuyerPartID>MAT-0002</BuyerPartID>
+        </ItemID>
+      </ConfirmationItem>
+    </ConfirmationRequest>
+  </Request>
+</cXML>

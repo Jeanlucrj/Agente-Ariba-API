@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.052/cXML.dtd">
+<cXML payloadID="2024011507105600@s1-eu.ariba.com"
+      timestamp="2026-06-17T07:10:56-07:00"
+      xml:lang="pt-BR"
+      version="1.2.052">
+  <Header>
+    <From>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+      </Credential>
+    </From>
+    <To>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN01234567890</Identity>
+      </Credential>
+    </To>
+    <Sender>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+        <SharedSecret>secret456</SharedSecret>
+      </Credential>
+      <UserAgent>SAP Ariba Sourcing</UserAgent>
+    </Sender>
+  </Header>
+  <Message>
+    <QuoteMessage>
+      <QuoteMessageHeader eventID="DOC1234567890"
+                          eventTitle="RFQ - Fornecimento de Equipamentos de TI"
+                          eventType="RFQ">
+        <Contact role="quoteSubmitter">
+          <Name xml:lang="pt-BR">Maria Santos</Name>
+          <Email name="email">maria.santos@fornecedor.com.br</Email>
+        </Contact>
+        <Extrinsic name="QuoteStatus">Submitted</Extrinsic>
+        <Extrinsic name="CurrencyCode">BRL</Extrinsic>
+        <Extrinsic name="SupplierID">AN09876543210</Extrinsic>
+      </QuoteMessageHeader>
+
+      <QuoteItemIn lineNumber="1" quantity="10">
+        <UnitOfMeasure>EA</UnitOfMeasure>
+        <UnitPrice>
+          <Money currency="BRL">480.00</Money>
+        </UnitPrice>
+        <ItemDetail>
+          <Description xml:lang="pt-BR">Notebook Dell Inspiron 15 - Core i5 - 8GB RAM</Description>
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <ManufacturerName>Dell</ManufacturerName>
+          <ManufacturerPartID>INS15-001</ManufacturerPartID>
+        </ItemDetail>
+        <Extrinsic name="LeadTimeDays">10</Extrinsic>
+        <Extrinsic name="WarrantyMonths">12</Extrinsic>
+        <ReferenceDocumentInfo lineNumber="321">
+          <DocumentInfo documentDate="2026-06-17T07:10:56-07:00"
+                        documentType="requisition"
+                        documentID="123"/>
+        </ReferenceDocumentInfo>
+      </QuoteItemIn>
+
+      <QuoteItemIn lineNumber="2" quantity="5">
+        <UnitOfMeasure>EA</UnitOfMeasure>
+        <UnitPrice>
+          <Money currency="BRL">1850.00</Money>
+        </UnitPrice>
+        <ItemDetail>
+          <Description xml:lang="pt-BR">Monitor LG 27" Full HD IPS</Description>
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <ManufacturerName>LG</ManufacturerName>
+          <ManufacturerPartID>27MP400</ManufacturerPartID>
+        </ItemDetail>
+        <Extrinsic name="LeadTimeDays">7</Extrinsic>
+        <Extrinsic name="WarrantyMonths">12</Extrinsic>
+        <ReferenceDocumentInfo lineNumber="322">
+          <DocumentInfo documentDate="2026-06-17T07:10:56-07:00"
+                        documentType="requisition"
+                        documentID="124"/>
+        </ReferenceDocumentInfo>
+      </QuoteItemIn>
+    </QuoteMessage>
+  </Message>
+</cXML>

@@ -1,0 +1,109 @@
+version: '3.9'
+
+# ================================================================
+# DESENVOLVIMENTO — docker-compose -f docker-compose.dev.yml up
+# Hot-reload via volume mounts, sem rebuild a cada alteração
+# ================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ariba_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ariba_agent
+      POSTGRES_USER: ariba
+      POSTGRES_PASSWORD: ariba_secure_pass
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ariba']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ariba_redis_dev
+    command: redis-server --requirepass redis_secure_pass
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', 'redis_secure_pass', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: ariba_rabbitmq_dev
+    environment:
+      RABBITMQ_DEFAULT_USER: ariba
+      RABBITMQ_DEFAULT_PASS: rabbitmq_secure_pass
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend.dev.Dockerfile
+    container_name: ariba_backend_dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      BACKEND_PORT: 3001
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ariba_agent
+      POSTGRES_USER: ariba
+      POSTGRES_PASSWORD: ariba_secure_pass
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis_secure_pass
+      RABBITMQ_URL: amqp://ariba:rabbitmq_secure_pass@rabbitmq:5672
+      JWT_SECRET: dev_jwt_secret_change_in_production_!!
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: dev_refresh_secret_change_in_production_!
+      JWT_REFRESH_EXPIRES_IN: 7d
+      ENCRYPTION_KEY: dev_encryption_32char_key_change!!
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: gpt-4o
+      APP_VERSION: 1.0.0-dev
+    ports:
+      - '3001:3001'
+      - '9229:9229'   # Node.js debugger
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src   # hot-reload do código
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.dev.Dockerfile
+    container_name: ariba_frontend_dev
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: /api-proxy
+      NEXT_PUBLIC_APP_NAME: Agente Ariba Enterprise AI (DEV)
+      BACKEND_INTERNAL_URL: http://backend:3001
+      PORT: 3000
+      HOSTNAME: '0.0.0.0'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/src:/app/src   # hot-reload do código
+
+volumes:
+  postgres_dev_data:

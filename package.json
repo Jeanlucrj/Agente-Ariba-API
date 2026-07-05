@@ -1,0 +1,19 @@
+{
+  "name": "agente-ariba-enterprise-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma Full Stack para Testes e Diagnóstico SAP Ariba",
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" --kill-others-on-fail \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "infra:up": "docker-compose up -d postgres redis rabbitmq",
+    "infra:down": "docker-compose stop postgres redis rabbitmq",
+    "setup": "npm run infra:up && npm run install:all"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "xlsx": "^0.18.5"
+  }
+}

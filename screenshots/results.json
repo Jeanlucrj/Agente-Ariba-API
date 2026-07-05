@@ -1,0 +1,119 @@
+[
+  {
+    "page": "/dashboard",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 180,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/apis",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 184,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/oauth",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 144,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/executor",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 178,
+    "keyComponent": false,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/analyzer/xml",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 155,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/analyzer/json",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 150,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/analyzer/cig",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 179,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/analyzer/sap",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 165,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/ai",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 171,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/monitoring",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 170,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/knowledge-base",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 262,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/evidences",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 148,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  },
+  {
+    "page": "/settings",
+    "status": "OK",
+    "heading": "Agente Ariba",
+    "muiCount": 382,
+    "keyComponent": true,
+    "consoleErrors": [],
+    "apiErrors": []
+  }
+]

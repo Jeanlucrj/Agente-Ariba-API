@@ -1,0 +1,146 @@
+version: '3.9'
+
+# ================================================================
+# PRODUÇÃO — docker-compose up --build
+# Tudo sobe via Docker, sem Node.js local necessário
+# ================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ariba_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ariba_agent}
+      POSTGRES_USER: ${POSTGRES_USER:-ariba}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ariba_secure_pass}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-ariba}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ariba_redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_secure_pass}
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD:-redis_secure_pass}', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: ariba_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-ariba}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-rabbitmq_secure_pass}
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend.Dockerfile
+    container_name: ariba_backend
+    restart: unless-stopped
+    # Sobrescreve hosts para usar nomes de serviço Docker (não localhost)
+    environment:
+      NODE_ENV: production
+      BACKEND_PORT: 3001
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-ariba_agent}
+      POSTGRES_USER: ${POSTGRES_USER:-ariba}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ariba_secure_pass}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis_secure_pass}
+      REDIS_TTL: ${REDIS_TTL:-3600}
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-ariba}:${RABBITMQ_PASSWORD:-rabbitmq_secure_pass}@rabbitmq:5672
+      JWT_SECRET: ${JWT_SECRET:-change_this_jwt_secret_at_least_32_chars}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change_this_refresh_secret_also_32c}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-change_this_32_char_encryption_key!!}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o}
+      THROTTLE_TTL: ${THROTTLE_TTL:-60}
+      THROTTLE_LIMIT: ${THROTTLE_LIMIT:-100}
+      MFA_ISSUER: ${MFA_ISSUER:-AribaEnterpriseAI}
+      APP_VERSION: ${APP_VERSION:-1.0.0}
+    ports:
+      - '3001:3001'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - uploads:/app/uploads
+      - logs:/app/logs
+      - evidences:/app/evidences
+    networks:
+      - ariba_net
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://localhost:3001/health || exit 1']
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.Dockerfile
+      args:
+        # No build: aponta para o proxy interno do Next.js (/api-proxy)
+        # O Next.js faz rewrite server-side para http://backend:3001
+        NEXT_PUBLIC_API_URL: /api-proxy
+        NEXT_PUBLIC_APP_NAME: ${APP_NAME:-Agente Ariba Enterprise AI}
+    container_name: ariba_frontend
+    restart: unless-stopped
+    environment:
+      # URL interna Docker — usada pelos rewrites do Next.js (server-side)
+      BACKEND_INTERNAL_URL: http://backend:3001
+      PORT: 3000
+      HOSTNAME: '0.0.0.0'
+    ports:
+      - '3000:3000'
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ariba_net
+
+networks:
+  ariba_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+  uploads:
+  logs:
+  evidences:

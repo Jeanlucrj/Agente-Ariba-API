@@ -1,0 +1,1754 @@
+{
+  "Sheet1": {
+    "headers": [
+      "Source",
+      "Data Type",
+      "Description",
+      "Target",
+      "Data Type",
+      "Description",
+      "Occurrence",
+      "Mandatory",
+      "Transformations"
+    ],
+    "mappings": [
+      {
+        "Target": "/cXML/Header",
+        "Description": "Header node",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "Map to constant \"\""
+      },
+      {
+        "Target": "/cXML/@payloadID",
+        "Transformations": "Map to Parameter $anPayloadID"
+      },
+      {
+        "Target": "/cXML/@timestamp",
+        "Transformations": "Map Current Date-Time"
+      },
+      {
+        "Target": "/cXML/Header/From/Credential",
+        "Description": "Credential",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "Map to constant \"\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Network ID",
+        "Target": "/cXML/Header/From/Credential/@domain = \"NetworkID\"",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "Map to Constant \"\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Identity",
+        "Target": "/cXML/Header/From/Credential/identity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "parameter \"anSupplierID\" from iflow will get mapped."
+      },
+      {
+        "Target": "/cXML/Header/From/Credential",
+        "Description": "Credential",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "Map to constant \"\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Network ID",
+        "Target": "/cXML/Header/From/Credential/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "Map to Constant \"EndPointID\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Identity",
+        "Target": "/cXML/Header/From/Credential/identity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "Map to Constant \"CIG\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Network ID",
+        "Target": "/cXML/Header/To/Credential/@domain",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "Map to Constant \"NetworkID\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Identity",
+        "Target": "/cXML/Header/To/Credential/identity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "parameter \"anSupplierID\" from iflow will get mapped."
+      },
+      {
+        "Data Type": "String",
+        "Description": "Network ID",
+        "Target": "/cXML/Header/Sender/Credential/@domain = \"NetworkID\"",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "Map to Constant \"\""
+      },
+      {
+        "Data Type": "String",
+        "Description": "Identity",
+        "Target": "/cXML/Header/Sender/Credential/identity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "parameter \"anProviderANID\" from iflow will get mapped."
+      },
+      {
+        "Source": "Ariba Supplier",
+        "Data Type": "String",
+        "Description": "UserAgent",
+        "Target": "/cXML/Header/Sender/UserAgent",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to constant \"Ariba Supplier\""
+      },
+      {
+        "Target": "/cXML/Request",
+        "Description": "Request node",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "Map to constant \"\""
+      },
+      {
+        "Source": "deploymentmode",
+        "Data Type": "String",
+        "Description": "deploymentnode",
+        "Target": "/cXML/Request/@deploymentmode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if $anEnvName = PROD, then map \"production\" to deploymentmode else map \"test\""
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader",
+        "Data Type": "String",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDK01/BELNR",
+        "Data Type": "String",
+        "Description": "requestID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@requestID",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to value of E1EDK01/BELNR"
+      },
+      {
+        "Source": "E1EDK03[IDDAT = 012]/UZEIT",
+        "Data Type": "String",
+        "Description": "requestDate",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@requestDate",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDK03[IDDAT = 012]/UZEIT is > 0 select value of it into requestDate otherwise inform 000000.\r\nif E1EDK03[IDDAT = 012]/DATUM is > 0 select value of datum into p_date. Use E1EDK01/E1ARBCIG_HEADER/USER_TIMEZONE to calculate date & time"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/OPERATION",
+        "Data Type": "String",
+        "Description": "type",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@type",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/OPERATION"
+      },
+      {
+        "Source": "E1EDK03[IDDAT = 019]/UZEIT",
+        "Data Type": "String",
+        "Description": "openDate",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@openDate",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDK03[IDDAT = 019]/UZEIT is > 0 select value of it into requestDate otherwise inform 000000.\r\nif E1EDK03[IDDAT = 019]/DATUM is > 0 select value of datum into p_date. Use E1EDK01/E1ARBCIG_HEADER/USER_TIMEZONE to calculate date & time"
+      },
+      {
+        "Source": "E1EDK03[IDDAT = 004]/UZEIT",
+        "Data Type": "String",
+        "Description": "closeDate",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@closeDate",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDK03[IDDAT = 004]/UZEIT is > 0 select value of it into requestDate otherwise inform 000000.\r\nif E1EDK03[IDDAT = 004]/DATUM is > 0 select value of datum into p_date. Use E1EDK01/E1ARBCIG_HEADER/USER_TIMEZONE to calculate date & time"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CURRENCY",
+        "Data Type": "String",
+        "Description": "currency",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@currency",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CURRENCY"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO or E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG or default language",
+        "Data Type": "String",
+        "Description": "lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@lang",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "inform E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO if not blank. Else inform E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG else inform default language"
+      },
+      {
+        "Source": "winningOnly",
+        "Data Type": "String",
+        "Description": "quoteReceivingPreference",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/@quoteReceivingPreference",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to constant \"winningOnly\""
+      },
+      {
+        "Source": "E1EDK01/BSART",
+        "Data Type": "String",
+        "Description": "matchingType",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/@matchingType",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "get the description for matching type by calling \"LookupTemplate\" by passing \r\n            <xsl:with-param name=\"p_anERPSystemID\" select=\"$anERPSystemID\"/>\r\n            <xsl:with-param name=\"p_anSupplierANID\" select=\"$anSupplierANID\"/>\r\n            <xsl:with-param name=\"p_producttype\" select=\"'AribaNetwork'\"/>\r\n            <xsl:with-param name=\"p_doctype\" select=\"$anTargetDocumentType\"/>\r\n            <xsl:with-param name=\"p_lookupname\" select=\"'QuoteRequestMatchingType'\"/>\r\n            <xsl:with-param name=\"p_input\" select=\"E1EDK01/BSART\"/>\r\ncheck if description is blank then pass \r\n             <xsl:with-param name=\"p_anERPSystemID\" select=\"$anERPSystemID\"/>\r\n             <xsl:with-param name=\"p_anSupplierANID\" select=\"$anSupplierANID\"/>\r\n             <xsl:with-param name=\"p_producttype\" select=\"'AribaSourcing'\"/>\r\n             <xsl:with-param name=\"p_doctype\" select=\"$anTargetDocumentType\"/>\r\n             <xsl:with-param name=\"p_lookupname\" select=\"'QuoteRequestMatchingType'\"/>\r\n             <xsl:with-param name=\"p_input\" select=\"E1EDK01/BSART\"/>"
+      },
+      {
+        "Source": "PrivateID",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/OrganizationID/Credential/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to \"PrivateID\""
+      },
+      {
+        "Source": "E1EDKA1[PARVW = 'LF']/PARTN",
+        "Data Type": "String",
+        "Description": "Identity",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/OrganizationID/Credential/@Identity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1[PARVW = 'LF']/PARTN"
+      },
+      {
+        "Source": "correspondent",
+        "Data Type": "String",
+        "Description": "role",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/@role",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to constant \"correspondent\""
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/VENDOR_LANG or default language key",
+        "Data Type": "String",
+        "Description": "lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/Name/@lang",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/VENDOR_LANG is not blank, inform E1EDK01/E1ARBCIG_HEADER/VENDOR_)LANG_ISO else default language"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/NAME",
+        "Data Type": "String",
+        "Description": "Name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/Name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/NAME"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/STREET",
+        "Data Type": "String",
+        "Description": "Street",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/Street",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/STREET"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CITY",
+        "Data Type": "String",
+        "Description": "City",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/City",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CITY"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/REGION_DESCRIPTION or\r\nE1EDK01/E1ARBCIG_HEADER/STATE",
+        "Data Type": "String",
+        "Description": "State",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/State",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "inform E1EDK01/E1ARBCIG_HEADER/REGION_DESCRIPTION if $v_getRegionDesc = 'YES', otherwise E1EDK01/E1ARBCIG_HEADER/STATE"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/POSTAL",
+        "Data Type": "String",
+        "Description": "PostalCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/PostalCode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/POSTAL"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/COUNTRY",
+        "Data Type": "String",
+        "Description": "Country",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/Email",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/COUNTRY"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/EMAIL",
+        "Data Type": "String",
+        "Description": "Email",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/Email",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if attribute name = \"name\" and E1EDK01/E1ARBCIG_HEADER/EMAIL is not blank, then map to \"routing\" else blank."
+      },
+      {
+        "Source": "routing or '  '",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/Email/@name",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped constant \"routing\" or space"
+      },
+      {
+        "Source": "routing or '  '",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/Fax/@name",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/FAX is blank, then map to \"routing\" else blank."
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/COUNTRY",
+        "Data Type": "String",
+        "Description": "idsoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/Fax/TelephoneNumber/CountryCode/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/COUNTRY"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/FAX",
+        "Data Type": "String",
+        "Description": "Number",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/SupplierSelector/SupplierInvitation/Correspondent/Contact/PostalAddress/Fax/TelephoneNumber/Number",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/FAX"
+      },
+      {
+        "Source": "E1EDS01/SUMME",
+        "Data Type": "String",
+        "Description": "Money",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Total/Money",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDS01/SUMME when E1EDS01/SUMID = '002'"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CURRENCY",
+        "Data Type": "String",
+        "Description": "currency",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Total/Money/@Currency",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CURRENCY"
+      },
+      {
+        "Source": "E1EDKA1[PARVW = 'WE']",
+        "Data Type": "String",
+        "Description": "ShipTo",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDKA1[PARVW = 'WE']"
+      },
+      {
+        "Source": "E1EDKA1/ISOAL or E1EDKA1/LAND1",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/@isoCountryCode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if E1EDKA1/ISOAL not blank mapped to E1EDKA1/ISOAL otherwise mapped to E1EDKA1/LAND1"
+      },
+      {
+        "Source": "E1EDKA1/LIFNR",
+        "Data Type": "String",
+        "Description": "addressID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/@addressID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDKA1/LIFNR"
+      },
+      {
+        "Source": "buyerLocationID",
+        "Data Type": "CHAR",
+        "Description": "addressIDDomain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/@addressIDDomain",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to constant \"buyerLocationID\""
+      },
+      {
+        "Source": "E1EDKA1/NAME1",
+        "Data Type": "String",
+        "Description": "Name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1/NAME1"
+      },
+      {
+        "Data Type": "String",
+        "Description": "PostalAddress",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress",
+        "Occurrence": "0..1",
+        "Mandatory": "N"
+      },
+      {
+        "Source": "E1EDKA1/STRAS",
+        "Data Type": "String",
+        "Description": "Street",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress/Street",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1/STRAS"
+      },
+      {
+        "Source": "E1EDKA1/ORT01",
+        "Data Type": "String",
+        "Description": "City",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress/City",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1/ORT01"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/REGION_DESCRIPTION or E1EDKA1/REGIO",
+        "Data Type": "String",
+        "Description": "State",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress/State",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if $v_getRegionDesc = 'YES', map to E1EDK01/E1ARBCIG_HEADER/REGION_DESCRIPTION otherwise E1EDKA1/REGIO"
+      },
+      {
+        "Source": "E1EDKA1/PSTLZ",
+        "Data Type": "String",
+        "Description": "PostalCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress/PostalCode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDKA1/PSTLZ"
+      },
+      {
+        "Source": "E1EDKA1/LAND1",
+        "Data Type": "String",
+        "Description": "Country",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress/Country",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1/LAND1"
+      },
+      {
+        "Source": "E1EDKA1/LAND1 or E1EDKA1/ISOAL or SPACE",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/PostalAddress/Country/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDKA1/LAND1 is not blank map to it. Elseif E1EDKA1/ISOAL not blank mapped to E1EDKA1/ISOAL. Otherwise map to space"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Phone",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if $v_ship = E1EDKA1[PARVW = 'WE']"
+      },
+      {
+        "Data Type": "String",
+        "Description": "TelephoneNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Data Type": "String",
+        "Description": "CountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber/CountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDKA1/LAND1 or E1EDKA1/ISOAL or SPACE",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber/CountryCode/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDKA1/LAND1 is not blank map to it. Elseif E1EDKA1/ISOAL not blank mapped to E1EDKA1/ISOAL. Otherwise map to space"
+      },
+      {
+        "Source": "mapped to E1EDKA1/TELF1",
+        "Data Type": "String",
+        "Description": "Number",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber/Number",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1/TELF1"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Fax",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Fax",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if $v_ship = E1EDKA1[PARVW = 'WE']"
+      },
+      {
+        "Data Type": "String",
+        "Description": "TelephoneNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Data Type": "String",
+        "Description": "CountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber/CountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDKA1/LAND1 or E1EDKA1/ISOAL or SPACE",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber/CountryCode/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDKA1/LAND1 is not blank map to it. Elseif E1EDKA1/ISOAL not blank mapped to E1EDKA1/ISOAL. Otherwise map to space"
+      },
+      {
+        "Source": "E1EDKA1/TELFX",
+        "Data Type": "String",
+        "Description": "Number",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/ShipTo/Address/Phone/TelephoneNumber/Number",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDKA1/TELFX"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Contact",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/CREATOR_NAME not blank, proceed"
+      },
+      {
+        "Source": "buyer",
+        "Data Type": "String",
+        "Description": "role",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/@role",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to constant \"buyer\""
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_ADDRESS",
+        "Data Type": "String",
+        "Description": "addressID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/@addressID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_ADDRESS"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_NAME",
+        "Data Type": "String",
+        "Description": "Name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_NAME"
+      },
+      {
+        "Description": "PostalAddress",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/PostalAddress",
+        "Data Type": "String",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_STREET",
+        "Data Type": "String",
+        "Description": "Street",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/PostalAddress/Street",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_STREET"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_CITY",
+        "Data Type": "String",
+        "Description": "City",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/PostalAddress/City",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_CITY"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_STATE",
+        "Data Type": "String",
+        "Description": "State",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/PostalAddress/State",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_STATE"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_POSTAL",
+        "Data Type": "String",
+        "Description": "PostalCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/PostalAddress/PostalCode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_POSTAL"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_COUNTRY",
+        "Data Type": "String",
+        "Description": "Country",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/PostalAddress/Country",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_COUNTRY"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_EMAIL",
+        "Data Type": "String",
+        "Description": "Email",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Email",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_EMAIL"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "preferredLang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Email/@preferredLang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Fax",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Fax",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDK01/E1ARBCIG_HEADER/CREATOR_FAX is not blank"
+      },
+      {
+        "Data Type": "String",
+        "Description": "TelephoneNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Fax/TelephoneNumber",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Data Type": "String",
+        "Description": "CountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Fax/TelephoneNumber/CountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_COUNTRY",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Fax/TelephoneNumber/CountryCode/isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_COUNTRY if attribute name = isoCountryCode"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_FAX",
+        "Data Type": "String",
+        "Description": "Number",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Contact/Fax/TelephoneNumber/Number",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CREATOR_FAX"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Comments",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Comments",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "Call template \"CommentsFillIdocOutPO\" to fill comments by passing E1EDKT1, $anTargetDocumentType and $v_pd.\r\nCall template \"addContenIdIDOC\" to add attachment by passing $v_attach as parameter"
+      },
+      {
+        "Data Type": "String",
+        "Description": "QuoteHeaderInfo",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo",
+        "Occurrence": "0..1",
+        "Mandatory": "N"
+      },
+      {
+        "Data Type": "String",
+        "Description": "LegalEntity",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/LegalEntity",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if (E1EDK14[QUALF = 011])"
+      },
+      {
+        "Data Type": "String",
+        "Description": "IdReference",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/LegalEntity/IdReference",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDK14[QUALF = 011]/ORGID",
+        "Data Type": "String",
+        "Description": "identifier",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/LegalEntity/IdReference/@identifier",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK14[QUALF = 011]/ORGID"
+      },
+      {
+        "Source": "CompanyCode",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/LegalEntity/IdReference/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'CompanyCode'"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/LegalEntity/IdReference/Description",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/COMPANY_CODE_NAME"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/LegalEntity/IdReference/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Data Type": "String",
+        "Description": "OrganizationalUnit",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDK14[QUALF = 014]"
+      },
+      {
+        "Data Type": "String",
+        "Description": "IdReference",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDK14[QUALF = 014]/ORGID",
+        "Data Type": "String",
+        "Description": "identifier",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/@identifier",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK14[QUALF = 011]/ORGID"
+      },
+      {
+        "Source": "PurchasingOrganization",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'PurchasingOrganization'"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/PURCHASING_ORG_DESCRIPTION",
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/Description",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/PURCHASING_ORG_DESCRIPTION"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Data Type": "String",
+        "Description": "OrganizationalUnit",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDK14[QUALF = 014]"
+      },
+      {
+        "Data Type": "String",
+        "Description": "IdReference",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDK14[QUALF = 009]/ORGID",
+        "Data Type": "String",
+        "Description": "identifier",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/@identifier",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK14[QUALF = 011]/ORGID"
+      },
+      {
+        "Source": "PurchasingGroup",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'PurchasingGroup'"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/PURCHASING_GROUP_DESCRIPTION",
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/Description",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/PURCHASING_GROUP_DESCRIPTION"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/OrganizationalUnit/IdReference/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Source": "E1EDK01/ZTERM",
+        "Data Type": "String",
+        "Description": "PaymentTerms",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/PaymentTerms",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/ZTERM is not blank, and attribute name='PaymentTermCode' then map to E1EDK01/ZTERM"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/PAYMENT_TERMS_DESCRIPTION",
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/PaymentTerms/Description",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/PAYMENT_TERMS_DESCRIPTION"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/QuoteHeaderInfo/PaymentTerms/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Extrinsic",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N"
+      },
+      {
+        "Source": "Terms",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"Terms\""
+      },
+      {
+        "Source": "InternalNote",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"InternalNote\" and for each E1EDKT1/E1EDKT2/E1ARBCIG_HDR_INTERNALNOTE, select value of COMMENTS by replacing ';' with '&#10;'"
+      },
+      {
+        "Source": "PRDocumentType",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"PRDocumentType\" and for each E1EDP01/E1ARBCIG_RFQITEM, check position() = 1. if true select value of REQUISITION_DOCTYPE"
+      },
+      {
+        "Source": "ExternalNote",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"ExternalNote\" and for each E1EDKT1/E1EDKT2/E1ARBCIG_HDR_EXTERNALNOTE, select value of COMMENTS by replacing ';' with '&#10;'"
+      },
+      {
+        "Source": "TargetValue",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to name as \"TargetValue\" and get value of E1EDS01/SUMME"
+      },
+      {
+        "Source": "ValidityEndDate",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDK03[IDDAT = 020]/DATUM is not blank, map to name = ValididyEndDate. Get time into v_uzeit_vetdate if E1EDK03[IDDAT = 020]/UZEIT not blank, otherwise get time as '000000'. Call template 'ANDateTime\" to get date by passing parameters E1EDK03[IDDAT = 020]/DATUM, $v_uzeit_vetdate and E1EDK01/E1ARBCIG_HEADER/USER_TIMEZONE."
+      },
+      {
+        "Source": "ValidityStartDate",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteRequestHeader/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDK03[IDDAT = 019]/DATUM is not blank, map to name = ValididyStartDate. Get time into v_uzeit_vstdate if E1EDK03[IDDAT = 019]/UZEIT not blank, otherwise get time as '000000'. Call template 'ANDateTime\" to get date by passing parameters E1EDK03[IDDAT = 019]/DATUM, $v_uzeit_vstdate and E1EDK01/E1ARBCIG_HEADER/USER_TIMEZONE."
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut",
+        "Data Type": "String",
+        "Description": "QuoteItemOut",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "Proceed for each E1EDP01"
+      },
+      {
+        "Source": "E1EDP01/MENGE",
+        "Data Type": "String",
+        "Description": "quantity",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@quantity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDP01/MENGE"
+      },
+      {
+        "Source": "E1EDP01/POSEX",
+        "Data Type": "CHAR",
+        "Description": "lineNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@lineNumber",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDP01/POSEX"
+      },
+      {
+        "Source": "E1EDP20/EDATU",
+        "Data Type": "String",
+        "Description": "requestedDeliveryDate",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@requestedDeliveryDate",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "Get time into v_req_delivdate if E1EDP20/EZEIT not blank, otherwise get time as '000000'. Call template 'ANDateTime\" to get requestedDeliveryDate by passing parameters E1EDP20/EDATU, $v_req_delivdate and E1EDK01/E1ARBCIG_HEADER/USER_TIMEZONE."
+      },
+      {
+        "Source": "material' or 'service'",
+        "Data Type": "String",
+        "Description": "itemClassification",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@itemClassification",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if E1EDP01/PSTYP = 0 then map to 'material'. If E1EDP01/PSTYP = 9, then map to 'service'"
+      },
+      {
+        "Source": "item' or 'composite'",
+        "Data Type": "String",
+        "Description": "itemType",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@itemType",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if E1EDP01/PSTYP = 0 then map to 'item'. If E1EDP01/PSTYP = 9, then map to 'composite'"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemID",
+        "Data Type": "String",
+        "Description": "ItemID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDP19[QUALF = 001]/IDTNR > 0 or E1EDP19[QUALF = 002]/IDTNR > 0"
+      },
+      {
+        "Source": "E1EDP19[QUALF = 002]/IDTNR",
+        "Data Type": "String",
+        "Description": "SupplierPartID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/SupplierPartID",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDP19[QUALF = 002]/IDTNR"
+      },
+      {
+        "Source": "E1EDP19[QUALF = 001]/IDTNR",
+        "Data Type": "String",
+        "Description": "BuyerPartID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/BuyerPartID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDP19[QUALF = 001]/IDTNR"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail",
+        "Data Type": "String",
+        "Description": "ItemDetail",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitPrice",
+        "Data Type": "String",
+        "Description": "UnitPrice",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitPrice/Money",
+        "Data Type": "String",
+        "Description": "Money",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CURRENCY",
+        "Data Type": "String",
+        "Description": "currency",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitPrice/Money/@currency",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CURRENCY"
+      },
+      {
+        "Source": "E1EDP19[QUALF = 001]/KTEXT",
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDP19[QUALF = 001]/KTEXT"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/OverallLimit",
+        "Data Type": "String",
+        "Description": "OverallLimit",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "check if test=\"not(E1ARBCIG_RFQITEM/SUMNOLIM) and (E1ARBCIG_RFQITEM/SUMLIMIT)"
+      },
+      {
+        "Source": "E1ARBCIG_RFQITEM/SUMLIMIT",
+        "Data Type": "String",
+        "Description": "Money",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/OverallLimit/Money",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1ARBCIG_RFQITEM/SUMLIMIT"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CURRENCY",
+        "Data Type": "String",
+        "Description": "currency",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/OverallLimit/Money/@currency",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CURRENCY"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/ExpectedLimit",
+        "Data Type": "String",
+        "Description": "ExpectedLimit",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if test= E1ARBCIG_RFQITEM/COMMITMENT"
+      },
+      {
+        "Source": "E1ARBCIG_RFQITEM/COMMITMENT",
+        "Data Type": "String",
+        "Description": "Money",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/ExpectedLimit/Money",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1ARBCIG_RFQITEM/COMMITMENT"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CURRENCY",
+        "Data Type": "String",
+        "Description": "currency",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/ExpectedLimit/Money/@currency",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDK01/E1ARBCIG_HEADER/CURRENCY"
+      },
+      {
+        "Source": "E1EDP01/MENEE",
+        "Data Type": "String",
+        "Description": "UnitOfMeasure",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitOfMeasure",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDP01/MENEE"
+      },
+      {
+        "Source": "E1ARBCIG_RFQITEM/MATERIAL_GROUP_DESCRIPTION",
+        "Data Type": "String",
+        "Description": "Classification",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1ARBCIG_RFQITEM/MATERIAL_GROUP_DESCRIPTION"
+      },
+      {
+        "Source": "MaterialGroup",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'MaterialGroup'"
+      },
+      {
+        "Source": "E1EDP01/MATKL",
+        "Data Type": "String",
+        "Description": "code",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification/@code",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDP01/MATKL"
+      },
+      {
+        "Source": "E1ARBCIG_RFQITEM/MATERIAL_GROUP_DESCRIPTION",
+        "Data Type": "String",
+        "Description": "Classification",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1ARBCIG_RFQITEM/MATERIAL_GROUP_DESCRIPTION"
+      },
+      {
+        "Source": "NotAvailable",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'NotAvailable'"
+      },
+      {
+        "Source": "E1EDP01/MATKL",
+        "Data Type": "String",
+        "Description": "code",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification/@code",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDP01/MATKL"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Extrinsic",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N"
+      },
+      {
+        "Source": "Terms",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"Terms\""
+      },
+      {
+        "Source": "TrackingNumber",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"TrackingNumber\" and get value of E1ARBCIG_RFQITEM/TRACKING_NUMBER"
+      },
+      {
+        "Source": "ExternalNote",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"ExternalNote\" and for each E1EDPT1/E1EDPT2/E1ARBCIG_ITM_EXTERNALNOTE, select value of COMMENTS by replacing ';' with '&#10;'"
+      },
+      {
+        "Source": "InternalNote",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"InternalNote\" and for each E1EDPT1/E1EDPT2/E1ARBCIG_ITM_INTERNALNOTE, select value of COMMENTS by replacing ';' with '&#10;'"
+      },
+      {
+        "Data Type": "String",
+        "Description": "ShipTo",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDPA1/PARVW = 'WE'"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Address",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDPA1/ISOAL or E1EDPA1/LAND1",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/@isoCountryCode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if E1EDPA1/ISOAL is not blank, then map to E1EDPA1/ISOAL otherwise E1EDPA1/LAND1"
+      },
+      {
+        "Source": "E1EDPA1/LIFNR",
+        "Data Type": "String",
+        "Description": "addessID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/@addressID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDPA1/LIFNR"
+      },
+      {
+        "Source": "buyerLocationID",
+        "Data Type": "String",
+        "Description": "addressIDDomain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/@addressIDDomain",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to 'buyerLocationID'"
+      },
+      {
+        "Source": "E1EDPA1/NAME1",
+        "Data Type": "String",
+        "Description": "Name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDPA1/NAME1"
+      },
+      {
+        "Data Type": "String",
+        "Description": "PostalAddress",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress",
+        "Occurrence": "0..1",
+        "Mandatory": "N"
+      },
+      {
+        "Source": "E1EDP01/STRAS",
+        "Data Type": "String",
+        "Description": "Street",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress/Street",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDPA1/STRAS"
+      },
+      {
+        "Source": "E1EDP01/ORT01",
+        "Data Type": "String",
+        "Description": "City",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress/City",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDPA1/ORT01"
+      },
+      {
+        "Source": "E1ARBCIG_RFQITEM/REGION_DESCRIPTION or E1EDP01/REGIO",
+        "Data Type": "String",
+        "Description": "State",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress/State",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if $v_getRegionDesc = 'YES' then map to E1ARBCIG_RFQITEM/REGION_DESCRIPTION otherwise map to E1EDP01/REGIO"
+      },
+      {
+        "Source": "E1EDP01/PSTLZ",
+        "Data Type": "String",
+        "Description": "PostalCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress/PostalCode",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDPA1/PSTLZ"
+      },
+      {
+        "Description": "Country",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress/Country",
+        "Data Type": "String",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDPA1/ISOAL or E1EDPA1/LAND1",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/PostalAddress/Country/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDPA1/ISOAL is not blank, then map to E1EDPA1/ISOAL otherwise E1EDPA1/LAND1"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Phone",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Phone",
+        "Occurrence": "0..1",
+        "Mandatory": "N"
+      },
+      {
+        "Data Type": "String",
+        "Description": "TelephoneNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Phone/TelephoneNumber",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Data Type": "String",
+        "Description": "CountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Phone/TelephoneNumber/CountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "or E1EDPA1/ISOAL",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Phone/TelephoneNumber/CountryCode/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDPA1/LAND1 is not blank then map to it. If E1EDPA1/ISOAL is not blank then map it"
+      },
+      {
+        "Source": "E1EDPA1/TELF1",
+        "Data Type": "String",
+        "Description": "Number",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Phone/TelephoneNumber/Number",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDPA1/TELF1"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Fax",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Fax",
+        "Occurrence": "0..1",
+        "Mandatory": "N"
+      },
+      {
+        "Data Type": "String",
+        "Description": "TelephoneNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Fax/TelephoneNumber",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Data Type": "String",
+        "Description": "CountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Fax/TelephoneNumber/CountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "or E1EDPA1/ISOAL",
+        "Data Type": "String",
+        "Description": "isoCountryCode",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Fax/TelephoneNumber/CountryCode/@isoCountryCode",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDPA1/LAND1 is not blank then map to it. If E1EDPA1/ISOAL is not blank then map it"
+      },
+      {
+        "Source": "E1EDPA1/TELFX",
+        "Data Type": "String",
+        "Description": "Number",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ShipTo/Address/Fax/TelephoneNumber/Number",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDPA1/TELFX"
+      },
+      {
+        "Data Type": "String",
+        "Description": "ReferenceDocumentInfo",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ReferenceDocumentInfo",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDP02[QUALF = 016]"
+      },
+      {
+        "Source": "E1EDP02[QUALF = 016]/ZEILE",
+        "Data Type": "String",
+        "Description": "lineNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ReferenceDocumentInfo/@lineNumber",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to E1EDP02[QUALF = 016]/ZEILE"
+      },
+      {
+        "Data Type": "String",
+        "Description": "DocumentInfo",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ReferenceDocumentInfo/DocumentInfo",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDP02[QUALF = 016]/BELNR",
+        "Data Type": "String",
+        "Description": "documentID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ReferenceDocumentInfo/DocumentInfo/@documentID",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDP02[QUALF = 016]/BELNR"
+      },
+      {
+        "Source": "requisition",
+        "Data Type": "String",
+        "Description": "documentType",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ReferenceDocumentInfo/DocumentInfo/@documentType",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'requisition'"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_ATTACH_HDR_DET or E1EDPT1",
+        "Data Type": "String",
+        "Description": "Comments",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/Comments",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "Call template \"CommentsFillIdocOutPO\" to fill comments by passing E1EDPT1, POSEX, $anTargetDocumentType and $v_pd.\r\nCall template \"addContenIdIDOC\" to add attachment by passing $v_attach and POSEX as parameters"
+      },
+      {
+        "Source": "For Non-ZERO Service lines"
+      },
+      {
+        "Data Type": "String",
+        "Description": "QuoteItemOut",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut",
+        "Transformations": "for each /ARBCIG_REQOTE/IDOC/E1EDP01/E1EDC01, check POSEX NE '0000000000' to proceed"
+      },
+      {
+        "Source": "E1EDP01/E1EDC01/MENGE",
+        "Data Type": "String",
+        "Description": "quantity",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@quantity",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDP01/E1EDC01/MENGE > 0 then map to it otherwise map to 0.000"
+      },
+      {
+        "Source": "E1EDP0E1ARBCIG_SERVICE_INFO/SRVMAPKEY",
+        "Data Type": "String",
+        "Description": "lineNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@lineNumber",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if $v_srvmapkey first character = '5', then concatenate with first character with 1 otherwise populate $v_srvmapkey."
+      },
+      {
+        "Source": "E1ARBCIG_SERVICE_INFO/PARENT_LINE",
+        "Data Type": "String",
+        "Description": "parentLineNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@parentLineNumber",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if ($v_removeLeadingZero) > 5 ( if(RANG > 0 ( if substring($v_removeLeadingZero, 1, 1) = '1') then replace 1 with 5) in other case then map to E1ARBCIG_SERVICE_INFO/PARENT_LINE). \r\nOtherwise select=\"substring(E1ARBCIG_SERVICE_INFO/PARENT_LINE, 6) into v_numcheck. \r\nIf v_numCheck = 0, then map to E1ARBCIG_SERVICE_INFO/PARENT_LINE"
+      },
+      {
+        "Source": "'service'",
+        "Data Type": "String",
+        "Description": "itemClassification",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@itemClassification",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "mapped to constant 'service'"
+      },
+      {
+        "Source": "item' or 'composite'",
+        "Data Type": "String",
+        "Description": "itemType",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@itemType",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if SGTYP = 001 then map to 'composite' otherwise to 'item'"
+      },
+      {
+        "Source": "E1ARBCIG_SERVICE_INFO/TDLINE",
+        "Data Type": "String",
+        "Description": "serviceLineType",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/@serviceLineType",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if \"../POSEX != $v_zero_service_ln\".if \"$v_servicelinetype = 'STNDLN'\" then map to 'standard', if \"$v_servicelinetype = 'BLKTLN'\" then 'blanket', if \"$v_servicelinetype = 'CNTGLN'\" then 'contingency', \"$v_servicelinetype = 'OPNQLN'\" then 'openquantity', \"$v_servicelinetype = 'INFRLN'\" then 'information' otherwise map to 'standard'."
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemID",
+        "Data Type": "String",
+        "Description": "ItemID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1EDC19[QUALF = '031'] or E1EDC19[QUALF = '032'] or > 0 and POSEX NE $v_zero_service_In"
+      },
+      {
+        "Source": "E1EDC19[QUALF = 032]/IDTNR_LONG or E1EDC19[QUALF = 032]/IDTNR",
+        "Data Type": "String",
+        "Description": "SupplierPartID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemID/SupplierPartID",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1EDC19[QUALF = 032]/IDTNR_LONG) > 0 then map to it. Otherwise map to E1EDC19[QUALF = 032]/IDTNR"
+      },
+      {
+        "Source": "E1EDC19[QUALF = 031]/IDTNR_LONG or E1EDC19[QUALF = 031]/IDTNR",
+        "Data Type": "String",
+        "Description": "BuyerPartID",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemID/BuyerPartID",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if E1EDC19[QUALF = 031] and E1EDC19[QUALF = 031]/IDTNR_LONG) > 0 then map to it. Otherwise map to E1EDC19[QUALF = 031]/IDTNR"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail",
+        "Data Type": "String",
+        "Description": "ItemDetail",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitPrice",
+        "Data Type": "String",
+        "Description": "UnitPrice",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitPrice/Money",
+        "Data Type": "String",
+        "Description": "Money",
+        "Occurrence": "1..1",
+        "Mandatory": "Y"
+      },
+      {
+        "Source": "E1EDC01/CURCY or E1EDK01/E1ARBCIG_HEADER/CURRENCY",
+        "Data Type": "String",
+        "Description": "currency",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitPrice/Money/@currency",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if POSEX != $v_zero_service_ln and E1EDC01/CURCY . 0 then map to E1EDC01/CURCY otherwise E1EDK01/E1ARBCIG_HEADER/CURRENCY"
+      },
+      {
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "if POSEX != $v_zero_service_ln and SGTYP = '001' then proceed"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Source": "E1EDC01/EXGRP",
+        "Data Type": "String",
+        "Description": "ShortName",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description/ShortName",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to E1EDC01/EXGRP"
+      },
+      {
+        "Source": "E1EDC01/KTXT1",
+        "Data Type": "String",
+        "Description": "Description",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "if POSEX != $v_zero_service_ln and KTXT1 > 0 then map to E1EDC01/KTXT1"
+      },
+      {
+        "Source": "E1EDK01/E1ARBCIG_HEADER/CREATOR_LANG_ISO or $v_defaultLang",
+        "Data Type": "String",
+        "Description": "xml:lang",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Description/@xml:lang",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N",
+        "Transformations": "if E1EDK01/E1ARBCIG_HEADER/COMAPNY_LANG is not blank, map to E1EDK01/E1ARBCIG_HEADER/COMPANY_LANG_ISO otherwise $v_defaultLang"
+      },
+      {
+        "Source": "E1EDC01/MENEE",
+        "Data Type": "String",
+        "Description": "UnitOfMeasure",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/UnitOfMeasure",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if \"../POSEX != $v_zero_service_ln\" and E1EDC01/MENEE > 0 map to E1EDC01/MENEE otherwise map to 'EA'"
+      },
+      {
+        "Source": "E1ARBCIG_RFQITEM/MATERIAL_GROUP_DESCRIPTION",
+        "Data Type": "String",
+        "Description": "Classification",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification",
+        "Occurrence": "1..unbounded",
+        "Mandatory": "Y",
+        "Transformations": "if \"../POSEX != $v_zero_service_ln\" and E1ARBCIG_SERVICE_INFO/WGBEZ > 0 then map to E1ARBCIG_SERVICE_INFO/WGBEZ. Otherwise map to constant 'Services'."
+      },
+      {
+        "Source": "MaterialGroup",
+        "Data Type": "String",
+        "Description": "domain",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification/@domain",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant 'MaterialGroup'"
+      },
+      {
+        "Source": "E1EDC01/MATKL",
+        "Data Type": "String",
+        "Description": "code",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Classification/@code",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if \"../POSEX != $v_zero_service_ln\" and MATKL > 0 then map to it otherwise map to '000'."
+      },
+      {
+        "Data Type": "String",
+        "Description": "Extrinsic",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic",
+        "Occurrence": "0..unbounded",
+        "Mandatory": "N"
+      },
+      {
+        "Source": "ServiceText",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "mapped to constant \"ServiceText\""
+      },
+      {
+        "Source": "$v_InternalServiceLineNote or $v_ExternalServiceLineNote or E1EDCT2/TDLINE",
+        "Data Type": "String",
+        "Description": "name",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/ItemDetail/Extrinsic/@name",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "Proceed for each E1EDCT1. if E1EDCT2/TDLINE = 'INTERNAL' map to $v_InternalServiceLineNote. if E1EDCT2/TDLINE = 'EXTERNAL' map to $v_ExternalServiceLineNote. Otherwise E1EDCT2/TDLINE. For each E1EDCT2/E1ARBCIG_SERVICE_TXT, select value of COMMENTS.\r\nAdd 'new line feed' at end of every comments i.e. E1EDKT2/TDLINE."
+      },
+      {
+        "Data Type": "String",
+        "Description": "Alternative",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/Alternative",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "proceed if E1ARBCIG_SERVICE_INFO/ALTERNATIVES exists"
+      },
+      {
+        "Source": "basicLine or alternativeLine or noAlternative",
+        "Data Type": "String",
+        "Description": "alternativeType",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/Alternative/@alternativeType",
+        "Occurrence": "1..1",
+        "Mandatory": "Y",
+        "Transformations": "if E1ARBCIG_SERVICE_INFO/ALTERNATIVES = 'BASIC' map to 'basicLine. If E1ARBCIG_SERVICE_INFO/ALTERNATIVES,  startswith 'ALTER' then map to 'alternativeLine'.  If E1ARBCIG_SERVICE_INFO/ALTERNATIVES = 'STNRD' then map to 'noAlternative'."
+      },
+      {
+        "Source": "E1ARBCIG_SERVICE_INFO/BASIC_LINE",
+        "Data Type": "String",
+        "Description": "basicLineNumber",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/Alternative/@basicLineNumber",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "If E1ARBCIG_SERVICE_INFO/ALTERNATIVES,  startswith 'ALTER' then map to E1ARBCIG_SERVICE_INFO/BASIC_LINE"
+      },
+      {
+        "Source": "E1EDPT1",
+        "Data Type": "String",
+        "Description": "Comments",
+        "Target": "/cXML/Request/QuoteRequest/QuoteItemOut/Comments",
+        "Occurrence": "0..1",
+        "Mandatory": "N",
+        "Transformations": "if $v_attach/LINENUMBER = POSEX or (E1EDPT1) then call template \"CommentsFillIdocOutPO\" to fill comments by passing E1EDPT1, POSEX, $anTargetDocumentType and $v_pd.\r\nCall template \"addContenIdIDOC\" to add attachment by passing $v_attach and POSEX as parameters"
+      }
+    ],
+    "total": 206
+  }
+}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cXML SYSTEM "http://xml.cxml.org/schemas/cXML/1.2.052/cXML.dtd">
+<cXML payloadID="2024011510300001@buyer.ariba.com"
+      timestamp="2024-01-15T10:30:00-03:00"
+      xml:lang="pt-BR"
+      version="1.2.052">
+  <Header>
+    <From>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN01234567890</Identity>
+      </Credential>
+    </From>
+    <To>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN09876543210</Identity>
+      </Credential>
+    </To>
+    <Sender>
+      <Credential domain="AribaNetworkUserId">
+        <Identity>AN01234567890</Identity>
+        <SharedSecret>secret123</SharedSecret>
+      </Credential>
+      <UserAgent>SAP Ariba Buying 2024</UserAgent>
+    </Sender>
+  </Header>
+  <Request deploymentMode="production">
+    <OrderRequest>
+      <OrderRequestHeader orderID="PO-2024-001"
+                          orderDate="2024-01-15T10:30:00-03:00"
+                          type="new"
+                          orderType="regular">
+        <Total>
+          <Money currency="BRL">15000.00</Money>
+        </Total>
+        <ShipTo>
+          <Address addressID="DEPOSITO-SP-001">
+            <Name xml:lang="pt-BR">Armazém Central São Paulo</Name>
+            <PostalAddress name="default">
+              <Street>Av. Paulista, 1000</Street>
+              <City>São Paulo</City>
+              <State>SP</State>
+              <PostalCode>01310-100</PostalCode>
+              <Country isoCountryCode="BR">Brasil</Country>
+            </PostalAddress>
+          </Address>
+        </ShipTo>
+        <BillTo>
+          <Address addressID="MATRIZ-001">
+            <Name xml:lang="pt-BR">Empresa Compradora Ltda</Name>
+            <PostalAddress name="default">
+              <Street>Rua da Consolação, 500</Street>
+              <City>São Paulo</City>
+              <State>SP</State>
+              <PostalCode>01302-000</PostalCode>
+              <Country isoCountryCode="BR">Brasil</Country>
+            </PostalAddress>
+          </Address>
+        </BillTo>
+        <Payment>
+          <PCard number="**** **** **** 1234" expiration="2025-12-31" name="Cartão Corporativo"/>
+        </Payment>
+        <Contact role="buyerContact">
+          <Name xml:lang="pt-BR">João Silva</Name>
+          <Email name="email">joao.silva@empresa.com.br</Email>
+          <Phone name="work">
+            <TelephoneNumber>
+              <CountryCode isoCountryCode="BR">55</CountryCode>
+              <AreaOrCityCode>11</AreaOrCityCode>
+              <Number>98765-4321</Number>
+            </TelephoneNumber>
+          </Phone>
+        </Contact>
+        <Extrinsic name="PurchasingOrg">1000</Extrinsic>
+        <Extrinsic name="PurchasingGroup">001</Extrinsic>
+        <Extrinsic name="CompanyCode">BR01</Extrinsic>
+        <Extrinsic name="CostCenter">CC-1001</Extrinsic>
+        <Extrinsic name="Tipo de Contratação">01 Concorrencial</Extrinsic>
+        <Extrinsic name="CentroCusto">1000-CC-001</Extrinsic>
+        <Extrinsic name="NaturezaJuridica">Pessoa Jurídica</Extrinsic>
+      </OrderRequestHeader>
+
+      <ItemOut quantity="10" lineNumber="1" requestedDeliveryDate="2024-02-15">
+        <ItemID>
+          <SupplierPartID>PROD-001-A</SupplierPartID>
+          <BuyerPartID>MAT-0001</BuyerPartID>
+        </ItemID>
+        <ItemDetail>
+          <UnitPrice>
+            <Money currency="BRL">500.00</Money>
+          </UnitPrice>
+          <Description xml:lang="pt-BR">Notebook Dell Inspiron 15 - Core i5 - 8GB RAM</Description>
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <Classification domain="UNSPSC">43211503</Classification>
+          <ManufacturerName>Dell</ManufacturerName>
+          <ManufacturerPartID>INS15-001</ManufacturerPartID>
+        </ItemDetail>
+        <Distribution>
+          <Accounting name="CostCenter">
+            <AccountingSegment name="CostCenter">
+              <Id>CC-1001</Id>
+              <Name xml:lang="pt-BR">Centro de Custo TI</Name>
+            </AccountingSegment>
+            <AccountingSegment name="GLAccount">
+              <Id>61500000</Id>
+              <Name xml:lang="pt-BR">Material de Informática</Name>
+            </AccountingSegment>
+          </Accounting>
+          <Charge percentage="100">
+            <Money currency="BRL">5000.00</Money>
+          </Charge>
+        </Distribution>
+      </ItemOut>
+
+      <ItemOut quantity="5" lineNumber="2" requestedDeliveryDate="2024-02-15">
+        <ItemID>
+          <SupplierPartID>PROD-002-B</SupplierPartID>
+          <BuyerPartID>MAT-0002</BuyerPartID>
+        </ItemID>
+        <ItemDetail>
+          <UnitPrice>
+            <Money currency="BRL">2000.00</Money>
+          </UnitPrice>
+          <Description xml:lang="pt-BR">Monitor LG 27" Full HD IPS</Description>
+          <UnitOfMeasure>EA</UnitOfMeasure>
+          <Classification domain="UNSPSC">43211902</Classification>
+          <ManufacturerName>LG</ManufacturerName>
+          <ManufacturerPartID>27MP400</ManufacturerPartID>
+        </ItemDetail>
+        <Distribution>
+          <Accounting name="CostCenter">
+            <AccountingSegment name="CostCenter">
+              <Id>CC-1001</Id>
+              <Name xml:lang="pt-BR">Centro de Custo TI</Name>
+            </AccountingSegment>
+            <AccountingSegment name="GLAccount">
+              <Id>61500000</Id>
+              <Name xml:lang="pt-BR">Material de Informática</Name>
+            </AccountingSegment>
+          </Accounting>
+          <Charge percentage="100">
+            <Money currency="BRL">10000.00</Money>
+          </Charge>
+        </Distribution>
+      </ItemOut>
+    </OrderRequest>
+  </Request>
+</cXML>
