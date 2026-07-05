@@ -33,19 +33,21 @@ export class KnowledgeEntry {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'text', array: true })
+  // Armazenado como JSON (simple-json): compatível com SQLite (dev) e PostgreSQL (prod).
+  // O tipo antigo `text array` só funciona no Postgres e perdia os dados no SQLite.
+  @Column({ type: 'simple-json' })
   possibleCauses: string[];
 
-  @Column({ type: 'text', array: true })
+  @Column({ type: 'simple-json' })
   investigationSteps: string[];
 
-  @Column({ type: 'text', array: true })
+  @Column({ type: 'simple-json' })
   solutions: string[];
 
-  @Column({ type: 'text', array: true, nullable: true })
+  @Column({ type: 'simple-json', nullable: true })
   relatedErrors: string[];
 
-  @Column({ type: 'text', array: true, nullable: true })
+  @Column({ type: 'simple-json', nullable: true })
   tags: string[];
 
   @Column({ default: 0 })
