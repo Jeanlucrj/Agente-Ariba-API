@@ -4,6 +4,7 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { ApisService } from './apis.service';
 import { CreateApiDto } from './dto/create-api.dto';
+import { UpdateApiDto } from './dto/update-api.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/user.entity';
@@ -48,7 +49,7 @@ export class ApisController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Atualizar API' })
-  update(@Param('id') id: string, @Body() dto: CreateApiDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateApiDto) {
     return this.service.update(id, dto);
   }
 

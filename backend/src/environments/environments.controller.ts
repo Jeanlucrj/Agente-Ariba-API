@@ -4,6 +4,7 @@ import {
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { EnvironmentsService } from './environments.service';
 import { CreateEnvironmentDto } from './dto/create-environment.dto';
+import { UpdateEnvironmentDto } from './dto/update-environment.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/user.entity';
@@ -35,7 +36,7 @@ export class EnvironmentsController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Atualizar ambiente' })
-  update(@Param('id') id: string, @Body() dto: CreateEnvironmentDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateEnvironmentDto) {
     return this.service.update(id, dto);
   }
 
