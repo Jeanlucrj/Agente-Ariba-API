@@ -12,6 +12,7 @@ import { ExecutorModule } from './executor/executor.module';
 import { AnalyzerModule } from './analyzer/analyzer.module';
 import { AiModule } from './ai/ai.module';
 import { KnowledgeBaseModule } from './knowledge-base/knowledge-base.module';
+import { EvidencesModule } from './evidences/evidences.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
@@ -100,6 +101,7 @@ import { HealthModule } from './health/health.module';
     AnalyzerModule,
     AiModule,
     KnowledgeBaseModule,
+    EvidencesModule,
     HealthModule,
   ],
 })

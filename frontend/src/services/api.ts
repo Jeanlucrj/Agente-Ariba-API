@@ -110,3 +110,9 @@ export const knowledgeApi = {
   get: (id: string) => api.get(`/v1/knowledge-base/${id}`),
   create: (data: any) => api.post('/v1/knowledge-base', data),
 };
+
+export const evidencesApi = {
+  list: () => api.get('/v1/evidences'),
+  create: (data: any) => api.post('/v1/evidences', data),
+  delete: (id: string) => api.delete(`/v1/evidences/${id}`),
+};
