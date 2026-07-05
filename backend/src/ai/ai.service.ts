@@ -97,6 +97,13 @@ export class AiService {
       parts: [{ text: m.content }],
     }));
 
+    // O Gemini exige que o histórico comece com uma mensagem 'user'.
+    // O frontend inicia a conversa com uma saudação do assistente ('model'),
+    // então removemos quaisquer mensagens iniciais que não sejam do usuário.
+    while (history.length > 0 && history[0].role !== 'user') {
+      history.shift();
+    }
+
     try {
       const model = this.genAI.getGenerativeModel({
         model: this.modelName,
