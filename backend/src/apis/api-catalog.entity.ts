@@ -68,7 +68,9 @@ export class ApiCatalog {
   @Column({ type: 'text', nullable: true })
   documentation: string;
 
-  @Column({ type: 'text', array: true, nullable: true })
+  // simple-json: compatível com SQLite (dev) e PostgreSQL (prod).
+  // O tipo antigo `text array` (Postgres-only) corrompia os dados no SQLite.
+  @Column({ type: 'simple-json', nullable: true })
   tags: string[];
 
   @ManyToOne(() => User)
